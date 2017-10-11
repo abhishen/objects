@@ -21,9 +21,15 @@ class ulongnum
 class ulongnum {
 public:
   //WRITE CODE HERE
+	ulongnum(int, bool);
+	ulongnum(const char*, bool);
 
 private:
   bool _display;
+  str _value();
+  int _length;
+  void _tostring(int);
+  friend ostream& operator <<(ostream&, const ulongnum&);
   //Cannot use any STL object
   //must use str object
 
