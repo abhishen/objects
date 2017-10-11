@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------
 Copyright (c) 2017 Author: Jagadeesh Vasudevamurthy
-file: ulongnum.cpp
+file: ul.cpp
 
 -----------------------------------------------------------------*/
 
@@ -14,11 +14,12 @@ All includes here
 #include "ulongnum.h"
 /*----------------------------------------------------------------
 
-Definition of routines of ulongnum class
+Definition of routines of ul class
 
 WRITE ALL CODE HERE
 -----------------------------------------------------------------*/
-void ulongnum::_tostring(int number) {
+
+void ul::_tostring(int number) {
 	while (number != 0) {
 		_value = number % 10 + '0' + _value;
 		number = number / 10;
@@ -26,52 +27,64 @@ void ulongnum::_tostring(int number) {
 }
 
 
-ulongnum::ulongnum(int number, bool display = false) :_display(display), _value("") {
+ul::ulongnum(int number, bool display = false) :_display(display), _value("") {
 	_tostring(number);
 }
 
-ulongnum::ulongnum(const char* number, bool display = false) : _display(display), _value("") {
-	_value(number);
+
+ul::ulongnum(const char* number, bool display = false) : _display(display), _value("") {
+	_value = number;
 }
 
-ulongnum::ulongnum(const ulongnum& rhs) {
+
+ul::ulongnum(const ul& rhs) {
+	cout << "In ulongnum copy constructor" << endl;
 	_copy(rhs);
 }
 
-void ulongnum::_copy(const ulongnum& rhs) {
-	_display = rhs._display;
-	_value = rhs._value;
+void ul::_copy(const ul& rhs) {
+	this->_display = rhs._display;
+	this->_value = rhs._value;
 }
 
-ulongnum operator+(const ulongnum& u1, const ulongnum& u2) {
-	ulongnum temp(u1);
+ul& ul::operator=(const ul& rhs) {
+	cout << "In ulongnum equal operator" << endl;
+	if (this != &rhs) {
+		_copy(rhs);
+	}
+	return *this;
+}
+/*
+ul operator+(const ul& u1, const ul& u2) {
+	ul temp(u1);
 	temp._value = u1._value + u2._value;
 	return temp;
 }
 
-ulongnum operator+(const ulongnum& u1, int number) {
-	ulongnum u2(number);
+ul operator+(const ul& u1, int number) {
+	ul u2(number);
 	return u1 + u2;
 }
 
-ulongnum operator+(int number, const ulongnum& u2) {
-	ulongnum u1(number);
+ul operator+(int number, const ul& u2) {
+	ul u1(number);
 	return u1 + u2;
 }
-
-ostream& operator<<(ostream& o, const ulongnum& number) {
+*/
+ostream& operator<<(ostream& o, const ul& number) {
 	o << number._value;
 	return o;
 }
 
-bool operator==(const ulongnum& u1, const ulongnum& u2) {
+/*bool operator==(const ul& u1, const ul& u2) {
 	return (u1._value == u2._value);
 }
 
-bool operator==(const ulongnum& u1, int number) {
-	ulongnum temp(number);
+bool operator==(const ul& u1, int number) {
+	ul temp(number);
 	return (u1._value == temp._value);
 }
+*/
 
 //EOF
 

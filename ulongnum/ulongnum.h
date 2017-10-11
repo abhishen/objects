@@ -18,18 +18,19 @@ All includes here
 /*--------------------------------------------------------
 class ulongnum
 ----------------------------------------------------------*/
-class ulongnum {
+typedef class ulongnum {
 public:
   //WRITE CODE HERE
 	ulongnum(int, bool);
 	ulongnum(const char*, bool);
 	ulongnum(const ulongnum&);
+	ulongnum& operator=(const ulongnum&);
 	friend ostream& operator <<(ostream&, const ulongnum&);
-	friend ulongnum operator+(const ulongnum&, const ulongnum&);
-	friend ulongnum operator+(const ulongnum&, int);
-	friend ulongnum operator+(int, const ulongnum&);
-	friend bool operator==(const ulongnum&, const ulongnum&);
-	friend bool operator==(const ulongnum&, int);
+	//friend ulongnum operator+(const ulongnum&, const ulongnum&);
+	//friend ulongnum operator+(const ulongnum&, int);
+	//friend ulongnum operator+(int, const ulongnum&);
+	//friend bool operator==(const ulongnum&, const ulongnum&);
+	//friend bool operator==(const ulongnum&, int);
 
 private:
   bool _display;
@@ -42,7 +43,7 @@ private:
   //must use str object
 
   //Can have any private functions here
-};
+} ul;
 
 #endif
 //EOF

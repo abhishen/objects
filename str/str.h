@@ -21,6 +21,7 @@ Declaration of str class
 class str {
 public:
    //WRITE CODE HERE
+	str();
 	str(char c, bool display = false);
 	str(const char* c, bool display = false);
 	str(const str&);
@@ -39,6 +40,7 @@ private:
   darray <char> _string;
   int _length;
   void _copy(const str&);
+  int _getLength();
   //Cannot use any STL OBJECT
   //MUST USE darray 
   //Can have any number of private functions

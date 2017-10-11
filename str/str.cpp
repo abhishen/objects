@@ -19,6 +19,15 @@ Definition of routines of str class
 WRITE CODE IN THIS FILE
 -----------------------------------------------------------------*/
 
+/*
+Default constructor
+*/
+str::str() :_string("") {}
+
+/*
+Constructor with char
+*/
+
 str::str(char c, bool d) :_display(d), _string(2,d) {
 	
 	int size = 1;
@@ -31,6 +40,10 @@ str::str(char c, bool d) :_display(d), _string(2,d) {
 	this->_length = size;
 }
 
+/*
+Constructor with const char ptr 
+*/
+
 str::str(const char* c, bool d) :_display(d), _string(strlen(c)+1,d) {
 	int size = strlen(c);
 	cout << "In const char* constructor" << endl;
@@ -41,17 +54,28 @@ str::str(const char* c, bool d) :_display(d), _string(strlen(c)+1,d) {
 	this->_length = size;
 }
 
+/*
+Copy constructor util function
+*/
+
 void str::_copy(const str& rhs) {
 	this->_length = rhs._length;
 	this->_display = rhs._display;
 	this->_string = rhs._string;
 }
 
+/*
+Copy constructor
+*/
+
 str::str(const str& rhs) {
 	cout << "In copy constructor" << endl;
 	_copy(rhs);
 }
 
+/*
+Assignment operator
+*/
 str& str::operator=(const str& rhs) {
 	cout << "In = operator" << endl;
 	if ((*this) != rhs) {
@@ -59,6 +83,10 @@ str& str::operator=(const str& rhs) {
 	}
 	return *this;
 }
+
+/*
+= Operator
+*/
 
 bool operator==(const str& s1, const str& s2) {
 	cout << "In == operator" << endl;
@@ -71,25 +99,45 @@ bool operator==(const str& s1, const str& s2) {
 	return true;
 }
 
+/*
+!= Operator
+*/
+
 bool operator!=(const str& s1, const str& s2) {
 	cout << "In != operator" << endl;
 	return !(s1 == s2);
 }
+
+/*
+char c + str s
+*/
 
 str operator+(char c,const str& s) {
 	str temp(c, true);
 	return temp + s;
 }
 
+/*
+str s + char c
+*/
+
 str operator+(const str& s, char c) {
 	str temp(c, true);
 	return s + temp;
 }
 
+/*
+str s1 + "abc"
+*/
+
 str operator+(const str& s1, const char* s2) {
 	str string(s2);
 	return s1 + string;
 }
+
+/*
+str s1 + str s2
+*/
 
 str operator+(const str& s1, const str& s2) {
 	str result(s1);
@@ -103,6 +151,13 @@ str operator+(const str& s1, const str& s2) {
 	result._length = i + j;
 	return result;
 }
+
+/*
+Lexicographically compare two strings.
+s1 < s2 - -1
+s1 > s2 - 1
+s1 == s2 - 0
+*/
 
 int string_compare(const str& s1, const str& s2) {
 	int ret = 0;
@@ -130,6 +185,10 @@ int string_compare(const str& s1, const str& s2) {
 	else return 1;
 }
 
+/*
+Overload cout <<
+*/
+
 ostream& operator<<(ostream& o, const str& s) {
 	int i = 0;
 	while(s._string[i] != '\0') {
@@ -139,6 +198,10 @@ ostream& operator<<(ostream& o, const str& s) {
 
 	return o;
 }
+
+/*
+Reverse string
+*/
 
 void str::reverse() {
 	int i = 0;
@@ -153,6 +216,12 @@ void str::reverse() {
 	}
 }
 
+/*
+Get length of string - This returns with the '/0'
+*/
+int str::_getLength() {
+	return _length;
+}
 
 
 
