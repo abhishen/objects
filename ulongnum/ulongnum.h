@@ -26,7 +26,7 @@ public:
 
 private:
   bool _display;
-  str _value();
+  str _value;
   int _length;
   void _tostring(int);
   friend ostream& operator <<(ostream&, const ulongnum&);

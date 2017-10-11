@@ -26,15 +26,15 @@ void ulongnum::_tostring(int number) {
 }
 
 
-ulongnum::ulongnum(int number, bool display = false) :_display(display) {
+ulongnum::ulongnum(int number, bool display = false) :_display(display), _value("") {
 	_tostring(number);
 }
 
-ulongnum::ulongnum(const char* number, bool display = false) : _display(display) {
+ulongnum::ulongnum(const char* number, bool display = false) : _display(display), _value("") {
 	_value = number;
 }
 
-ostream& operator <<(ostream& o, const ulongnum& number) {
+ostream& operator<<(ostream& o, const ulongnum& number) {
 	o << number._value;
 	return o;
 }
