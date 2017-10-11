@@ -23,13 +23,21 @@ public:
   //WRITE CODE HERE
 	ulongnum(int, bool);
 	ulongnum(const char*, bool);
+	ulongnum(const ulongnum&);
+	friend ostream& operator <<(ostream&, const ulongnum&);
+	friend ulongnum operator+(const ulongnum&, const ulongnum&);
+	friend ulongnum operator+(const ulongnum&, int);
+	friend ulongnum operator+(int, const ulongnum&);
+	friend bool operator==(const ulongnum&, const ulongnum&);
+	friend bool operator==(const ulongnum&, int);
 
 private:
   bool _display;
   str _value;
-  int _length;
+
   void _tostring(int);
-  friend ostream& operator <<(ostream&, const ulongnum&);
+  void _copy(const ulongnum&);
+  
   //Cannot use any STL object
   //must use str object
 

@@ -20,6 +20,7 @@ WRITE CODE IN THIS FILE
 -----------------------------------------------------------------*/
 
 str::str(char c, bool d) :_display(d), _string(2,d) {
+	
 	int size = 1;
 	cout << "In char constructor" << endl;
 	//this->_string = darray<char> s;
@@ -30,7 +31,7 @@ str::str(char c, bool d) :_display(d), _string(2,d) {
 	this->_length = size;
 }
 
-str::str(const char* c, bool d) :_display(d), _string(strlen(c),d) {
+str::str(const char* c, bool d) :_display(d), _string(strlen(c)+1,d) {
 	int size = strlen(c);
 	cout << "In const char* constructor" << endl;
 	for (int i = 0; i < size; i++) {

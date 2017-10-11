@@ -55,7 +55,7 @@ test multiplication
 	/*----------------------------------------------------------------
 	test addition
 	-----------------------------------------------------------------*/
-/*	
+
 static void test_addition() {
 		ulongnum a(9789, verbose);
 		ulongnum b("100000", verbose);
@@ -66,8 +66,7 @@ static void test_addition() {
 		ulongnum sum = a + 78 + b + c;
 		cout << "sum = a + 78 + b + c = " << sum << endl;
 		assert(sum == 109874);
-	}
-	*/
+}
 
 /*----------------------------------------------------------------
 test basic
@@ -125,7 +124,7 @@ main
 -----------------------------------------------------------------*/
 int main() {
   test_basic();
- // test_addition();
+  test_addition();
  // test_multiplication();
   //test_factorial();
   return 0;
