@@ -26,6 +26,7 @@ public:
 	str(const char* c, bool display = false);
 	str(const str&);
 	str& operator=(const str&);
+	const char& operator[](int i) const;
 	void reverse();
 	friend int string_compare(const str&, const str&);
 	friend ostream& operator <<(ostream&, const str&);
@@ -35,12 +36,12 @@ public:
 	friend str operator+(const str&, char);
 	friend str operator+(const str&, const char*);
 	friend str operator+(const str&, const str&);
+	int length() { return _length; };
 private:
   bool _display;
   darray <char> _string;
   int _length;
   void _copy(const str&);
-  int _getLength();
   //Cannot use any STL OBJECT
   //MUST USE darray 
   //Can have any number of private functions

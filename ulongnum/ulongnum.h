@@ -24,6 +24,7 @@ public:
 	ulongnum(int, bool);
 	ulongnum(const char*, bool);
 	ulongnum(const ulongnum&);
+	const char& operator[](int i) const;
 	ulongnum& operator=(const ulongnum&);
 	friend ostream& operator <<(ostream&, const ulongnum&);
 	//friend ulongnum operator+(const ulongnum&, const ulongnum&);
@@ -35,6 +36,7 @@ public:
 private:
   bool _display;
   str _value;
+  int _length;
 
   void _tostring(int);
   void _copy(const ulongnum&);

@@ -29,11 +29,13 @@ void ul::_tostring(int number) {
 
 ul::ulongnum(int number, bool display = false) :_display(display), _value("") {
 	_tostring(number);
+	_length = _value.length();
 }
 
 
 ul::ulongnum(const char* number, bool display = false) : _display(display), _value("") {
 	_value = number;
+	_length = _value.length();
 }
 
 
@@ -45,6 +47,7 @@ ul::ulongnum(const ul& rhs) {
 void ul::_copy(const ul& rhs) {
 	this->_display = rhs._display;
 	this->_value = rhs._value;
+	this->_length = rhs._length;
 }
 
 ul& ul::operator=(const ul& rhs) {
@@ -54,6 +57,14 @@ ul& ul::operator=(const ul& rhs) {
 	}
 	return *this;
 }
+
+const char& ul::operator[](int i) const {
+	if (i < 0 || i > _length + 1) {
+		assert(0);
+	}
+	return _value[i];
+}
+
 /*
 ul operator+(const ul& u1, const ul& u2) {
 	ul temp(u1);

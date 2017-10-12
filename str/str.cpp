@@ -85,6 +85,17 @@ str& str::operator=(const str& rhs) {
 }
 
 /*
+[] Operator
+*/
+const char& str::operator[](int i) const {
+	if (i < 0 || i > _length + 1) {
+		assert(0);
+	}
+
+	return _string[i];
+}
+
+/*
 = Operator
 */
 
@@ -215,14 +226,6 @@ void str::reverse() {
 		i++;
 	}
 }
-
-/*
-Get length of string - This returns with the '/0'
-*/
-int str::_getLength() {
-	return _length;
-}
-
 
 
 //EOF
