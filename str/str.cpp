@@ -33,10 +33,8 @@ str::str(char c, bool d) :_display(d), _string(2,d) {
 	int size = 1;
 	cout << "In char constructor" << endl;
 	//this->_string = darray<char> s;
-	for (int i = 0; i < size; i++) {
-		_string[i] = c;
-	}
-	_string[size] = '\0';
+	_string[0] = c;
+	_string[1] = '\0';
 	this->_length = size;
 }
 
