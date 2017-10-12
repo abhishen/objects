@@ -24,10 +24,10 @@ public:
 	ulongnum(int, bool);
 	ulongnum(const char*, bool);
 	ulongnum(const ulongnum&);
-	const char& operator[](int i) const;
+	int operator[](int i) const;
 	ulongnum& operator=(const ulongnum&);
 	friend ostream& operator <<(ostream&, const ulongnum&);
-	//friend ulongnum operator+(const ulongnum&, const ulongnum&);
+	friend ulongnum operator+(const ulongnum&, const ulongnum&);
 	//friend ulongnum operator+(const ulongnum&, int);
 	//friend ulongnum operator+(int, const ulongnum&);
 	//friend bool operator==(const ulongnum&, const ulongnum&);
@@ -37,8 +37,8 @@ private:
   bool _display;
   str _value;
   int _length;
-
-  void _tostring(int);
+  int _toint(const char&) const;
+  str& _tostring(int);
   void _copy(const ulongnum&);
   
   //Cannot use any STL object

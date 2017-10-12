@@ -19,16 +19,22 @@ Definition of routines of ul class
 WRITE ALL CODE HERE
 -----------------------------------------------------------------*/
 
-void ul::_tostring(int number) {
+str& ul::_tostring(int number) {
 	while (number != 0) {
 		_value = number % 10 + '0' + _value;
 		number = number / 10;
 	}
+
+	return _value;
+}
+
+int ul::_toint(const char& c) const {
+	return c - '0';
 }
 
 
 ul::ulongnum(int number, bool display = false) :_display(display), _value("") {
-	_tostring(number);
+	_value = _tostring(number);
 	_length = _value.length();
 }
 
@@ -58,20 +64,26 @@ ul& ul::operator=(const ul& rhs) {
 	return *this;
 }
 
-const char& ul::operator[](int i) const {
+int ul::operator[](int i) const {
 	if (i < 0 || i > _length + 1) {
 		assert(0);
 	}
-	return _value[i];
+	
+	return _toint(_value[i]);
 }
 
-/*
+
 ul operator+(const ul& u1, const ul& u2) {
-	ul temp(u1);
-	temp._value = u1._value + u2._value;
+	int carry = 0;
+	int i = u1._length;
+	int j = u2._length;
+	
+	u1[i] + u2[j] + carry);
+	
 	return temp;
 }
 
+/*
 ul operator+(const ul& u1, int number) {
 	ul u2(number);
 	return u1 + u2;
