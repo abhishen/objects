@@ -108,6 +108,10 @@ ul operator+(const ul& u1, const ul& u2) {
 		j--;
 	}
 
+	if (carry == 1) {
+		temp._value = '1' + temp._value;
+		temp._length = temp._value.length();
+	}
 	return temp;
 }
 
