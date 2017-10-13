@@ -32,13 +32,13 @@ public:
 	friend ulongnum operator+(const ulongnum&, int);
 	friend ulongnum operator+(int, const ulongnum&);
 	friend ulongnum operator*(const ulongnum&, const ulongnum&);
-	friend ulongnum mult(const ulongnum&, const ulongnum&);
+	//friend ulongnum mult(const ulongnum&, const ulongnum&);
 	friend ulongnum operator-(const ulongnum&, const ulongnum&);
 	friend bool operator==(const ulongnum&, const ulongnum&);
 	friend bool operator==(const ulongnum&, const char*);
 	friend bool operator==(const ulongnum&, int);
 	void set_display(bool display) { _display = display; }
-	//void factorial(int);
+	ulongnum factorial(int);
 
 private:
   bool _display;
@@ -47,6 +47,7 @@ private:
   int _toint(const char&) const;
   str _tostring(int);
   void _copy(const ulongnum&);
+  ulongnum rectFact(int, int);
 
   //Cannot use any STL object
   //must use str object

@@ -50,8 +50,8 @@ ul::ulongnum(char number, bool display) : _display(display), _value(number) {
 }
 
 
-ul::ulongnum(const ul& rhs) {
-	cout << "In ulongnum copy constructor" << endl;
+ul::ulongnum(const ul& rhs):_value("") {
+	//cout << "In ulongnum copy constructor" << endl;
 	_copy(rhs);
 }
 
@@ -62,7 +62,7 @@ void ul::_copy(const ul& rhs) {
 }
 
 ul& ul::operator=(const ul& rhs) {
-	cout << "In ulongnum equal operator" << endl;
+	//cout << "In ulongnum equal operator" << endl;
 	if (this != &rhs) {
 		_copy(rhs);
 	}
@@ -183,16 +183,23 @@ ul operator+(int number, const ul& u2) {
 	return u1 + u2;
 }
 
-/*
-void ul::factorial(int range) {
-	ul temp = 1;
-	for (int i = 2 ; i <= range; i++) {
-		temp = temp * i;
-	}
-	*this = temp;
-}
-*/
 
+ul ul::rectFact(int start, int range) {
+	ul temp = 1;
+	if (range <= 16) {
+		for (int i = 2; i <= range; i++)
+			temp = temp * i;
+		return temp;
+	}
+	int half = range / 2;
+	return rectFact(start, half) * rectFact(start + half, range - half);
+}
+
+ul ul::factorial(int range) {
+	return rectFact(1, range);
+}
+
+/*
 ul operator*(const ul& u1, const ul& u2) {
 	int l1 = u1._length - 1;
 	int l2 = u2._length - 1;
@@ -253,17 +260,15 @@ ul operator*(const ul& u1, const ul& u2) {
 
 	return z;
 }
+*/
 
-
-ul mult(const ul& u1, const ul& u2) {
+ul operator*(const ul& u1, const ul& u2) {
 	int l1 = u1._length - 1;
 	int l2 = u2._length - 1;
 
-	//int maxLen = ((l1 > l2) ? l1 : l2);
-	//if (maxLen < 10) {
-		ul temp("");
+	ul temp("");
 
-		for (int i = l1; i >= 0; i--) {
+	for (int i = l1; i >= 0; i--) {
 			for (int j = l2; j >= 0; j--) {
 				int product = u1[i] * u2[j];
 				ul prod(product);
@@ -283,9 +288,10 @@ ul mult(const ul& u1, const ul& u2) {
 				temp = prod + temp;
 			}
 		}
-	//}
 	return temp;
 }
+
+
 
 
 ostream& operator<<(ostream& o, const ul& number) {

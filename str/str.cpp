@@ -22,7 +22,7 @@ WRITE CODE IN THIS FILE
 /*
 Default constructor
 */
-str::str() :_string("") {}
+//str::str() :_string(), _display(false) {}
 
 /*
 Constructor with char

@@ -122,10 +122,13 @@ static void test_factorial() {
 main
 -----------------------------------------------------------------*/
 int main() {
-  test_basic();
-  //test_addition();
-  test_multiplication();
-  //test_factorial();
+ // test_basic();
+ // test_addition();
+ // test_multiplication();
+ // test_factorial();
+	ul c5;
+	c5.factorial(5);
+	cout << c5 << endl;
   return 0;
 }
 
