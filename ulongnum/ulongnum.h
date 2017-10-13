@@ -21,9 +21,9 @@ class ulongnum
 typedef class ulongnum {
 public:
   //WRITE CODE HERE
-	ulongnum(int, bool);
-	ulongnum(const char*, bool);
-	ulongnum(char c, bool);
+	ulongnum(int number = 0, bool d = false);
+	ulongnum(const char*, bool d = false);
+	ulongnum(char c, bool d = false);
 	ulongnum(const ulongnum&);
 	int operator[](int i) const;
 	ulongnum& operator=(const ulongnum&);
@@ -32,8 +32,13 @@ public:
 	friend ulongnum operator+(const ulongnum&, int);
 	friend ulongnum operator+(int, const ulongnum&);
 	friend ulongnum operator*(const ulongnum&, const ulongnum&);
+	friend ulongnum mult(const ulongnum&, const ulongnum&);
+	friend ulongnum operator-(const ulongnum&, const ulongnum&);
 	friend bool operator==(const ulongnum&, const ulongnum&);
+	friend bool operator==(const ulongnum&, const char*);
 	friend bool operator==(const ulongnum&, int);
+	void set_display(bool display) { _display = display; }
+	//void factorial(int);
 
 private:
   bool _display;

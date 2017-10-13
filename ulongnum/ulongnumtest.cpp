@@ -50,10 +50,10 @@ static void test_multiplication() {
 	cout << "p1p2 = " << p1p2 << endl;
 	assert(p1p2 == rsa129);
 }
+
 	/*----------------------------------------------------------------
 	test addition
 	-----------------------------------------------------------------*/
-
 static void test_addition() {
 	ulongnum a(9789, verbose);
 	ulongnum b("100000", verbose);
@@ -65,7 +65,6 @@ static void test_addition() {
 	cout << "sum = a + 78 + b + c = " << sum << endl;
 	assert(sum == 109874);
 }
-
 
 /*----------------------------------------------------------------
 test basic
@@ -86,21 +85,22 @@ static void test_basic() {
 /*----------------------------------------------------------------
 test factorial
 -----------------------------------------------------------------*/
-/*static void test_factorial() {
-  // http://puzzles.nigelcoldwell.co.uk/nineteen.htm
-  {
-    const char* fact100 = "93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000";
-    clock_t start = clock();
-    ulongnum c100;
-    c100.set_display(verbose);
-    c100.factorial(100);
-    cout << "Factorial of 100 = " << endl;
-    cout << c100 << endl;
-    assert(c100 == fact100);
-    clock_t end = clock();
-    double d = double(end - start) / CLOCKS_PER_SEC;
-    cout << "Run time for !100 = " << " is " << d << " secs" << endl;
-  }
+/*
+static void test_factorial() {
+	// http://puzzles.nigelcoldwell.co.uk/nineteen.htm
+	{
+		const char* fact100 = "93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000";
+		clock_t start = clock();
+		ulongnum c100;
+		c100.set_display(verbose);
+		c100.factorial(100);
+		cout << "Factorial of 100 = " << endl;
+		cout << c100 << endl;
+		assert(c100 == fact100);
+		clock_t end = clock();
+		double d = double(end - start) / CLOCKS_PER_SEC;
+		cout << "Run time for !100 = " << " is " << d << " secs" << endl;
+	}
 
   //http://justinwhite.com/big-calc/1000.html
   {
@@ -116,15 +116,15 @@ test factorial
     double d = double(end - start) / CLOCKS_PER_SEC;
     cout << "Run time for !1000 = " << " is " << d << " secs" << endl;
   }
-}*/
-
+}
+*/
 /*----------------------------------------------------------------
 main
 -----------------------------------------------------------------*/
 int main() {
   test_basic();
-  test_addition();
-  //test_multiplication();
+  //test_addition();
+  test_multiplication();
   //test_factorial();
   return 0;
 }

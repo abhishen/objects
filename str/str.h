@@ -36,6 +36,7 @@ public:
 	friend str operator+(const str&, char);
 	friend str operator+(const str&, const char*);
 	friend str operator+(const str&, const str&);
+	str substr(int start, int end);
 	int length() { return _length; };
 private:
   bool _display;

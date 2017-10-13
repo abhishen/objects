@@ -31,7 +31,7 @@ Constructor with char
 str::str(char c, bool d) :_display(d), _string(2,d) {
 	
 	int size = 1;
-	cout << "In char constructor" << endl;
+	//cout << "In char constructor" << endl;
 	//this->_string = darray<char> s;
 	_string[0] = c;
 	_string[1] = '\0';
@@ -44,12 +44,30 @@ Constructor with const char ptr
 
 str::str(const char* c, bool d) :_display(d), _string(strlen(c)+1,d) {
 	int size = strlen(c);
-	cout << "In const char* constructor" << endl;
+	//cout << "In const char* constructor" << endl;
 	for (int i = 0; i < size; i++) {
 		this->_string[i] = c[i];
 	}
 	this->_string[size] = '\0';
 	this->_length = size;
+}
+
+/*
+Substring function
+*/
+str str::substr(int start, int end) {
+	if (start < 0 || start > this->_length) {
+		assert(0);
+	}
+
+	str temp("");
+	int last = ((end > this->_length) ? this->_length : end);
+	
+	for (int i = start; i < last; i++) {
+		temp = temp + this->_string[i];
+	}
+
+	return temp;
 }
 
 /*
@@ -67,7 +85,7 @@ Copy constructor
 */
 
 str::str(const str& rhs) {
-	cout << "In copy constructor" << endl;
+	//cout << "In copy constructor" << endl;
 	_copy(rhs);
 }
 
@@ -75,8 +93,8 @@ str::str(const str& rhs) {
 Assignment operator
 */
 str& str::operator=(const str& rhs) {
-	cout << "In = operator" << endl;
-	if ((*this) != rhs) {
+	//cout << "In = operator" << endl;
+	if (this != &rhs) {
 		_copy(rhs);
 	}
 	return *this;
@@ -98,7 +116,7 @@ const char& str::operator[](int i) const {
 */
 
 bool operator==(const str& s1, const str& s2) {
-	cout << "In == operator" << endl;
+	//cout << "In == operator" << endl;
 	if (s1._length != s2._length) return false;
 	for (int i = 0; i < s1._length; i++) {
 		if (s1._string[i] != s2._string[i])
@@ -113,7 +131,7 @@ bool operator==(const str& s1, const str& s2) {
 */
 
 bool operator!=(const str& s1, const str& s2) {
-	cout << "In != operator" << endl;
+	//cout << "In != operator" << endl;
 	return !(s1 == s2);
 }
 
@@ -122,7 +140,7 @@ char c + str s
 */
 
 str operator+(char c,const str& s) {
-	str temp(c, true);
+	str temp(c,false);
 	return temp + s;
 }
 
@@ -131,7 +149,7 @@ str s + char c
 */
 
 str operator+(const str& s, char c) {
-	str temp(c, true);
+	str temp(c, false);
 	return s + temp;
 }
 
@@ -215,7 +233,7 @@ Reverse string
 void str::reverse() {
 	int i = 0;
 	int j = this->_length - 1;
-	int mid = j / 2;
+	int mid = (j + 1) / 2;
 	while(j >= mid) {
 		char temp = this->_string[j];
 		this->_string[j] = this->_string[i];
