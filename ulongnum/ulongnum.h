@@ -31,6 +31,7 @@ public:
 	friend ulongnum operator+(const ulongnum&, const ulongnum&);
 	friend ulongnum operator+(const ulongnum&, int);
 	friend ulongnum operator+(int, const ulongnum&);
+	friend ulongnum operator*(const ulongnum&, const ulongnum&);
 	friend bool operator==(const ulongnum&, const ulongnum&);
 	friend bool operator==(const ulongnum&, int);
 
@@ -41,7 +42,7 @@ private:
   int _toint(const char&) const;
   str _tostring(int);
   void _copy(const ulongnum&);
-  
+
   //Cannot use any STL object
   //must use str object
 

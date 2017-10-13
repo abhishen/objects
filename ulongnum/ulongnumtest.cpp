@@ -126,6 +126,10 @@ main
 int main() {
   test_basic();
   test_addition();
+  ul ul1(17);
+  ul ul2(24);
+  ul ul3 = ul1 * ul2;
+  cout << ul3 << endl;
 //test_multiplication();
   //test_factorial();
   return 0;

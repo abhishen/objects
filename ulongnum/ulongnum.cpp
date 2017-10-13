@@ -122,6 +122,56 @@ ul operator+(int number, const ul& u2) {
 	return u1 + u2;
 }
 
+ul operator*(const ul& u1, const ul& u2) {
+	int carry = 0;
+	int l1  = u1._length - 1;
+	int l2 =  u2._length - 1;
+	ul temp("");
+
+	for (int i = l1; i >= 0; i--) {
+		for (int j = l2; j >= 0; j--) {
+			int product = u1[i] * u2[j];
+			ul prod(product);
+			int numZeroj = j;
+			while (numZeroj != l2) {
+				prod._value = prod._value + '0';
+				prod._length = prod._value.length();
+				numZeroj++;
+			}
+			int numZeroi = i;
+			while (numZeroi != l1) {
+				prod._value = prod._value + '0';
+				prod._length = prod._value.length();
+				numZeroi++;
+			}
+			//temp = mod + temp;
+			//carry = product / 10;
+			//t mod = product % 10;
+			temp = prod + temp;
+			//mp._length = temp._value.length();
+			//carry = product / 10;
+		}
+	}
+
+	/*
+	while (i >=  0) {
+		while (i >= 0) {
+			temp._value = temp._value + '0';
+			int product = u1[i] * u2[j] + carry;
+			int mod = (product % 10);
+			temp = mod + temp;
+			carry = product / 10;
+			i--;
+		}
+		j--;
+		k++;
+		i = u2._length - 1 - k;
+	}
+	*/
+
+	return temp;
+}
+
 ostream& operator<<(ostream& o, const ul& number) {
 	o << number._value;
 	return o;
