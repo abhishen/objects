@@ -37,7 +37,8 @@ public:
 	friend str operator+(const str&, const char*);
 	friend str operator+(const str&, const str&);
 	str substr(int start, int end);
-	int length() { return _length; };
+	int length() const { return _length; };
+	char getCharAt(int index) const { return _string[index]; };
 private:
   bool _display;
   darray <char> _string;

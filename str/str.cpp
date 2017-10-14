@@ -140,8 +140,14 @@ char c + str s
 */
 
 str operator+(char c,const str& s) {
-	str temp(c,false);
-	return temp + s;
+	str temp(c);
+	int i = 0;
+	while(s[i] != '\0') {
+		temp._string[temp._length++] = s[i];
+		i++;
+	}
+	temp._string[temp._length] = '\0';
+	return temp;
 }
 
 /*
@@ -149,8 +155,10 @@ str s + char c
 */
 
 str operator+(const str& s, char c) {
-	str temp(c, false);
-	return s + temp;
+	str temp(s);
+	temp._string[temp._length++] = c;
+	temp._string[temp._length] = '\0';
+	return temp;
 }
 
 /*
@@ -158,8 +166,14 @@ str s1 + "abc"
 */
 
 str operator+(const str& s1, const char* s2) {
-	str string(s2);
-	return s1 + string;
+	str temp(s1);
+	int i = 0;
+	while(i < strlen(s2)) {
+		temp._string[temp._length++] = s2[i];
+		i++;
+	}
+	temp._string[temp._length++] = '\0';
+	return temp;
 }
 
 /*
@@ -235,9 +249,10 @@ void str::reverse() {
 	int j = this->_length - 1;
 	int mid = (j + 1) / 2;
 	while(j >= mid) {
-		char temp = this->_string[j];
-		this->_string[j] = this->_string[i];
-		this->_string[i] = temp;
+		swap(this->_string[i],this->_string[j]);
+		//char temp = this->_string[j];
+		//this->_string[j] = this->_string[i];
+		//this->_string[i] = temp;
 		j--;
 		i++;
 	}

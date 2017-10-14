@@ -63,8 +63,6 @@ void test1() {
   cout << "s3 = " << s3 << endl;
   s1 = "++";
   s2 = "Claaaa";
-  s3 = s2.substr(0, 1);
-  cout << s3 << endl;
   cout << "Jag " << 'C' + s1 + '+' + '+' + ' ' << s2 << "s" << endl;
 }
 
