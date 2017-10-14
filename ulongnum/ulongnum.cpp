@@ -18,16 +18,14 @@ Definition of routines of ul class
 
 WRITE ALL CODE HERE
 -----------------------------------------------------------------*/
-
-
 str ul::_tostring(int number) {
 	str result("");
-while (number != 0) {
-	result = number % 10 + '0' + result;
-	number = number / 10;
-}
+	while (number != 0) {
+		result = number % 10 + '0' + result;
+		number = number / 10;
+	}
 
-return result;
+	return result;
 }
 
 int ul::_toint(const char& c) const {
@@ -36,17 +34,17 @@ int ul::_toint(const char& c) const {
 
 ul::ulongnum(int number, bool display) :_display(display), _value("") {
 	_value = _tostring(number);
-	_length = _value.length();
+	//_length = _value.length();
 }
 
 
 ul::ulongnum(const char* number, bool display) : _display(display), _value("") {
 	_value = number;
-	_length = _value.length();
+	//_length = _value.length();
 }
 
 ul::ulongnum(char number, bool display) : _display(display), _value(number) {
-	_length = _value.length();
+	//_length = _value.length();
 }
 
 
@@ -58,7 +56,7 @@ ul::ulongnum(const ul& rhs):_value("") {
 void ul::_copy(const ul& rhs) {
 	this->_display = rhs._display;
 	this->_value = rhs._value;
-	this->_length = this->_value.length();
+	//this->_length = this->_value.length();
 }
 
 ul& ul::operator=(const ul& rhs) {
@@ -70,13 +68,13 @@ ul& ul::operator=(const ul& rhs) {
 }
 
 int ul::operator[](int i) const {
-	if (i < 0 || i > _length + 1) {
+	if (i < 0 || i > this->_value.length() + 1) {
 		assert(0);
 	}
 
-	return _toint(_value[i]);
+	return _toint(_value.getCharAt(i));
 }
-
+/*
 ul operator-(const ul& u1, const ul& u2) {
 	int borrow = 0;
 	ul temp("");
@@ -134,69 +132,123 @@ ul operator-(const ul& u1, const ul& u2) {
 	temp._length = temp._value.length();
 	return temp;
 }
-
+*/
 ul operator+(const ul& u1, const ul& u2) {
+	//cout << "Adding obkects" << u1 << " " << u2 << endl;
 	int carry = 0;
-	int i = u1._length - 1;
-	int j = u2._length - 1;
+	//int i = u1._length - 1;
+	//int j = u2._length - 1;
+	int i = u1._value.length() - 1;
+	int j = u2._value.length() - 1;
 	ul temp("");
-	
 	while (i >= 0 && j >= 0) {
-		int sum = u1[i] + u2[j] + carry;
+		int v1 = u1._value.getCharAt(i) - '0';
+		int v2 = u2._value.getCharAt(j) - '0';
+		//int sum = u1._value[i] + '0' + u2._value[j] + '0' + carry;
+		int sum = v1 + v2 + carry;
 		char mod = (sum % 10) + '0';
-		temp._value = mod + temp._value;
+		temp._value = temp._value + mod;
+		//temp._length = temp._value.length();
 		carry = sum / 10;
 		i--; j--;
 	}
 
+	if ( i != j ) {
 	while (i >= 0) {
-		int sum = u1[i] + carry;
+		int v1 = u1._value.getCharAt(i) - '0';
+		//int sum = u1._value[i] + '0' + carry;
+		int sum = v1 + carry;
 		char mod = (sum % 10) + '0';
-		temp._value = mod + temp._value;
+		temp._value = temp._value + mod;
+		//temp._length = temp._value.length();
 		carry = sum / 10;
 		i--;
 	}
 
 	while (j >= 0) {
-		int sum = u2[j] + carry;
+		int v2 = u2._value.getCharAt(j) - '0';
+		//int sum = u2._value[j] + '0' + carry;
+		int sum = v2 + carry;
 		char mod = (sum % 10) + '0';
-		temp._value = mod + temp._value;
+		temp._value = temp._value + mod;
+		//temp._length = temp._value.length();
 		carry = sum / 10;
 		j--;
 	}
+	}
 
 	if (carry == 1) {
-		temp._value = '1' + temp._value;
-		temp._length = temp._value.length();
+		temp._value = temp._value + '1';
+		//temp._length = temp._value.length();
 	}
+
+	//temp._length = temp._value.length();
+	temp._value.reverse();
 	return temp;
 }
 
 
 ul operator+(const ul& u1, int number) {
-	ul u2(number);
-	return u1 + u2;
+	//cout << "Adding " << u1 << " " << number << endl;
+	//int l1 = u1._length - 1;
+	int l1 = u1._value.length() - 1;
+	int carry = 0;
+	ul temp("");
+	int i = l1;
+
+	while(i >= 0 && number != 0 ) {
+		int v1 = u1._value.getCharAt(i) - '0';
+		int sum = v1 + (number%10) + carry;
+		char mod = (sum%10) + '0';
+		temp._value = temp._value + mod;
+		//temp._length = temp._value.length();
+		carry = sum/10;
+		i--;
+		number = number/10;
+	}
+
+	if(i != number) {
+		while(i >= 0) {
+			int v1 = u1._value.getCharAt(i) - '0';
+			int sum = v1 + carry;
+			char mod = (sum%10) + '0';
+			temp._value = temp._value + mod;
+			//temp._length = temp._value.length();
+			carry = sum/10;
+			i--;
+		}
+
+		while(number!=0) {
+			int sum = number + carry;
+			char mod = (sum%10) + '0';
+			temp._value = temp._value + mod;
+			//temp._length = temp._value.length();
+			carry = sum/10;
+			number = number/10;
+		}
+	}
+
+	if(carry == 1) {
+		temp._value = temp._value + '1';
+		//temp._length = temp._value.length();
+	}
+	
+	temp._value.reverse();
+	//temp._length = temp._value.length();
+	return temp;
 }
 
 ul operator+(int number, const ul& u2) {
-	ul u1(number);
-	return u1 + u2;
+	return u2 + number;
 }
 
-
-ul ul::rectFact(int start, int range) {
+void ul::factorial(int range) {
 	ul temp = 1;
-	if (range <= 16) {
-		for (int i = 2; i <= range; i++)
-			temp = temp * i;
-		return temp;
+	for(int i = 2; i <= range; i++) {
+		temp = temp * i;
 	}
-	int half = range / 2;
-	return rectFact(start, half) * rectFact(start + half, range - half);
-}
-
-ul ul::factorial(int range) {
-	return rectFact(1, range);
+	//temp._length = temp._value.length();
+	*this = temp;
 }
 
 /*
@@ -261,13 +313,103 @@ ul operator*(const ul& u1, const ul& u2) {
 	return z;
 }
 */
-
 ul operator*(const ul& u1, const ul& u2) {
-	int l1 = u1._length - 1;
-	int l2 = u2._length - 1;
+	//int l1 = u1._length - 1;
+	//int l2 = u2._length - 1;
+	int l1 = u1._value.length() - 1;
+	int l2 = u2._value.length() - 1;
+	
+	ul sum("");
+	int carry = 0;
 
-	ul temp("");
+	for(int i = l1; i >= 0; i-=2) {
+		ul temp("");
+		int numZero = i;
+		while(numZero < l1) {
+			temp._value = temp._value + '0';
+			//temp._length = temp._value.length();
+			numZero++;
+		}
+		int v1 = 0;
+		if (i==0) {
+			v1 = u1._value.getCharAt(i) - '0';
+		} else {
 
+			v1 = (u1._value.getCharAt(i-1) - '0')*10 + (u1._value.getCharAt(i) - '0') ;
+		}
+		for(int j = l2; j >= 0; j--) {
+			int v2 = u2._value.getCharAt(j) - '0';
+			//cout << v1 << " " << v2 << endl;
+			int product = v1 * v2 + carry;
+			char mod = (product % 10) + '0';
+			carry = product/10;
+			temp._value = temp._value + mod;
+			//temp._length = temp._value.length();
+		}
+
+		if (carry > 10) {
+
+			int i = 0;
+			while(carry > 0) {
+				temp._value = temp._value + ((carry%10)+'0');
+				carry/=10;
+			}
+		} else if (carry > 0) {
+
+			temp._value = temp._value + (carry + '0');
+			//temp._length = temp._value.length();
+			carry = 0;
+		}
+		
+		temp._value.reverse();
+		//cout << temp << endl;
+		sum = sum + temp;
+		//sum._length = sum._value.length();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	/*
+	for(int i = l1; i >= 0; i--) {
+		ul temp("");
+		int numZero = i;
+		while(numZero < l1) {
+			temp._value = temp._value + '0';
+			//temp._length = temp._value.length();
+			numZero++;
+		}
+		int v1 = u1._value.getCharAt(i) - '0';
+		for(int j = l2; j >= 0; j--) {
+			int v2 = u2._value.getCharAt(j) - '0';
+			//cout << v1 << " " << v2 << endl;
+			int product = v1 * v2 + carry;
+			char mod = (product % 10) + '0';
+			carry = product/10;
+			temp._value = temp._value + mod;
+			//temp._length = temp._value.length();
+		}
+
+		if (carry > 0) {
+			temp._value = temp._value + (carry + '0');
+			//temp._length = temp._value.length();
+			carry = 0;
+		}
+		
+		temp._value.reverse();
+		//cout << temp << endl;
+		sum = sum + temp;
+		//sum._length = sum._value.length();
+	}
+	*/
+	return sum;
+}
+
+/*
 	for (int i = l1; i >= 0; i--) {
 			for (int j = l2; j >= 0; j--) {
 				int product = u1[i] * u2[j];
@@ -288,8 +430,10 @@ ul operator*(const ul& u1, const ul& u2) {
 				temp = prod + temp;
 			}
 		}
+	temp._length = temp._value.length();
 	return temp;
 }
+*/
 
 
 
