@@ -28,6 +28,7 @@ Default constructor
 Constructor with char
 */
 
+//CIC - Instead of passing char c - passing const char c is a better practice
 str::str(char c, bool d) :_display(d), _string(2,d) {
 	
 	int size = 1;
@@ -35,6 +36,16 @@ str::str(char c, bool d) :_display(d), _string(2,d) {
 	//this->_string = darray<char> s;
 	_string[0] = c;
 	_string[1] = '\0';
+
+	//CIC
+	/*
+	int i = 0;
+	if ( c != '') {
+		_string[i++] = c;
+		}
+		_string[i] = '\0';
+	*/
+
 	this->_length = size;
 }
 
@@ -48,6 +59,11 @@ str::str(const char* c, bool d) :_display(d), _string(strlen(c)+1,d) {
 	for (int i = 0; i < size; i++) {
 		this->_string[i] = c[i];
 	}
+
+	//CIC
+	//int i  = 0;
+	//while(c[i]) { _string[i] = c[i]; i++ } _string[i] = '\0';
+	
 	this->_string[size] = '\0';
 	this->_length = size;
 }
@@ -73,7 +89,6 @@ str str::substr(int start, int end) {
 /*
 Copy constructor util function
 */
-
 void str::_copy(const str& rhs) {
 	this->_length = rhs._length;
 	this->_display = rhs._display;
@@ -83,15 +98,19 @@ void str::_copy(const str& rhs) {
 /*
 Copy constructor
 */
-
-str::str(const str& rhs) {
+//CIC - Need not do anything here. Darray would take care, ALL you need is baseline init
+//_display(rhs._display), _str(rhs._str)
+str::str(const str& rhs):_length(rhs._length), _display(rhs._display), _string(rhs._string) {
 	//cout << "In copy constructor" << endl;
-	_copy(rhs);
+	//CIC - commented
+	//_copy(rhs);
 }
 
 /*
 Assignment operator
 */
+
+//CIC - Again nothing needed here only copy string. _str = rhs._str
 str& str::operator=(const str& rhs) {
 	//cout << "In = operator" << endl;
 	if (this != &rhs) {
@@ -103,6 +122,8 @@ str& str::operator=(const str& rhs) {
 /*
 [] Operator
 */
+
+//CIC - Overload [] to have a modifiable []
 const char& str::operator[](int i) const {
 	if (i < 0 || i > _length + 1) {
 		assert(0);
@@ -165,14 +186,17 @@ str operator+(const str& s, char c) {
 str s1 + "abc"
 */
 
+//This one addition would have been sufficient. All other + would have first called a str constructor and added this. That was kind of my previous implementation.
+//Changed it because I thought it causes bottlenecks. It probably isnt the bottle neck
 str operator+(const str& s1, const char* s2) {
 	str temp(s1);
 	int i = 0;
+	//CIC - while(s1[i]) { } is better as you dont have to mess around with lngth
 	while(i < strlen(s2)) {
 		temp._string[temp._length++] = s2[i];
 		i++;
 	}
-	temp._string[temp._length++] = '\0';
+	temp._string[temp._length] = '\0';
 	return temp;
 }
 

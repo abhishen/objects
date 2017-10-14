@@ -20,6 +20,15 @@ class ulongnum
 ----------------------------------------------------------*/
 typedef class ulongnum {
 public:
+	/*
+	CIC 
+	ulongnums(const char *s, bool d = false);
+	ul(const char ch, bool d = false);
+	ul(const unsigned i, bool d = false);
+
+	Different constructors for each type of call.
+	
+	*/
   //WRITE CODE HERE
 	ulongnum(int number = 0, bool d = false);
 	ulongnum(const char*, bool d = false);
@@ -47,6 +56,8 @@ private:
   int _toint(const char&) const;
   str _tostring(int);
   void _copy(const ulongnum&);
+  //CIC
+  //void _build(const unsigned s1)
 
   //Cannot use any STL object
   //must use str object

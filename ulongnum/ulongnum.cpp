@@ -42,15 +42,17 @@ ul::ulongnum(const char* number, bool display) : _display(display), _value("") {
 	_value = number;
 	//_length = _value.length();
 }
-
+//CIC - Better practice to make const char number. _value(number,display)
 ul::ulongnum(char number, bool display) : _display(display), _value(number) {
 	//_length = _value.length();
 }
 
-
-ul::ulongnum(const ul& rhs):_value("") {
+//no copy constructor needed. This calls str's copy constr which calls darrays copy constr. darrray takes care of everything
+//Take care to do baseline init
+ul::ulongnum(const ul& rhs): _display(rhs._display), _value(rhs._value) {
 	//cout << "In ulongnum copy constructor" << endl;
-	_copy(rhs);
+	//CIC - commented 
+	//_copy(rhs);
 }
 
 void ul::_copy(const ul& rhs) {
@@ -318,7 +320,21 @@ ul operator*(const ul& u1, const ul& u2) {
 	//int l2 = u2._length - 1;
 	int l1 = u1._value.length() - 1;
 	int l2 = u2._value.length() - 1;
+	//CIC
+	//Take care to always multiply bigger number by smaller number
+
+	/*
+	CIC
+	const ul* p1 = &s1;
+	const ul* p2 = &s2;
+
+	if(s2.numdigit > 1.numdigit()) {
+	p1 = &s2;
+	p2 = &s1;
+	}
 	
+	use *p2 and *p1 in the further calculations instead of s1 and s2
+	*/
 	ul sum("");
 	int carry = 0;
 
