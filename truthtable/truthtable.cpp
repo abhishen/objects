@@ -5,11 +5,18 @@ truthtable::truthtable(int number, bool display) : _digits(number),_display(disp
 	_build(_rows);
 	if (display) {
 		for (int i = 0; i < _rows; i++) {
-			cout << setw(1) << i << ":" << setw(2) << _matrix[i] << endl;
+			cout << setw(4) << i << setw(3) << ":" << "   " << _matrix[i] << endl;
 		}
 	}
 
 	cout << "Number of rows for a truth table of" << " " << number << " = " << _rows << endl;
+}
+
+truthtable::~truthtable() {
+	for (long long i = 0; i < _rows; i++) {
+		delete [] _matrix[i];
+	}
+	delete [] _matrix;
 }
 
 void truthtable::_build(long long rows) {
@@ -20,7 +27,7 @@ void truthtable::_build(long long rows) {
 } 
 
 char* truthtable::_toBinString(long long number) {
-	char *binString = new char[_digits];
+	char *binString = new char[_digits + 1];
 	binString[_digits] = '\0';
 	int i = _digits - 1;
 	while (i >= 0) {

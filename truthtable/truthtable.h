@@ -4,7 +4,7 @@
 typedef class truthtable {
 public:
 	truthtable(int number, bool display = false);
-
+	~truthtable();
 private:
 	//Matrix used to store the output
 	char** _matrix;
