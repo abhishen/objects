@@ -19,11 +19,17 @@ Definition of routines of ul class
 WRITE ALL CODE HERE
 -----------------------------------------------------------------*/
 str ul::_tostring(int number) {
-	str result("");
+	char s1[120];
+	sprintf(s1, "%d", number);
+	char s[20];
+	s[0] = '\0';
+	strcat(s, s1);
+	str result(s);
+	/*str result("");
 	while (number != 0) {
 		result = number % 10 + '0' + result;
 		number = number / 10;
-	}
+	}*/
 
 	return result;
 }
