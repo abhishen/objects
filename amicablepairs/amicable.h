@@ -1,4 +1,5 @@
 #include "../util/util.h"
+#include "../darray/darray.h"
 
 #ifndef AMICABLE_H
 #define AMICABLE_H
