@@ -14,7 +14,7 @@ private:
 	bool _display;
 	ui* _array;
 	ui _number;
-	void _findFactors(ui number, int& index);
+	void _findFactors(ui& number, int& index);
 
 };
 
