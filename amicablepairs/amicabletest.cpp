@@ -32,7 +32,7 @@ compute factor and resuse computed factors.
 -----------------------------------------------------------------*/
 int main() {
   clock_t start = clock();
-  unsigned int n = 100000000;
+  unsigned int n = 1000000;
   amicable a(n);
   clock_t end = clock();
   double d = double(end - start) / CLOCKS_PER_SEC;

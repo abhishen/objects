@@ -5,13 +5,13 @@ amicable::~amicable() {
 }
 
 amicable::amicable(ui number) :_number(number) {
-	//_array = new ui [number * 2];
+	_array = new ui [number];
 	cout << "The following are amicable numbers" << endl;
 	int index = 0;
 	ui i = 2;
 	while(i < number) {
 		//if(_array[i] != 1)
-			_findFactors(i, index);
+		_findFactors(i, index);
 		i++;
 	}
 }
@@ -19,7 +19,7 @@ amicable::amicable(ui number) :_number(number) {
  void amicable::_findFactors(ui& number, int& index) {
 	ui root1 = sqrt(number);
 	ui sum1 = 1;
-	
+	bool flag = false;
 
 	//First find sum of factors
 	for (ui i = 2; i <= root1; i++) {
@@ -29,11 +29,20 @@ amicable::amicable(ui number) :_number(number) {
 		}
 	}
 
-	//Find sum of the factors of sum1
-	if (sum1 < number) {
+	if (sum1 > number) {
+		_array[number] = sum1;
 		return;
+	} else if (sum1 < number) {
+		if (_array[sum1] == number) {
+			cout << setw(2) << index << setw(2) << ":" << setw(2) << sum1 << " and " << number << endl;
+			index++;
+		}
+		else {
+			return;
+		}
 	}
 
+	/*
 	ui sum2 = 1;
 	ui root2 = sqrt(sum1);
 	for (ui i = 2; i <= root2; i++) {
@@ -43,8 +52,10 @@ amicable::amicable(ui number) :_number(number) {
 		}
 	}
 
+
 	//Fill the position of that number in array with the sum
 	
+
 	if (number == sum2 && sum1 != sum2) {
 		ui a = ((number < sum1) ? number : sum1);
 		ui b = ((a == number) ? sum1 : number);
@@ -62,7 +73,7 @@ amicable::amicable(ui number) :_number(number) {
 	}
 
 	//Check the value against sum in the array.
-	/*if (sum1 <= _number && sum1  && sum != number) {
+	if (sum1 <= _number && sum1  && sum != number) {
 		cout << setw(2) << index << setw(2) << ":" << setw(2) << sum << " and " << number << endl;
 		index++;
 	}*/
