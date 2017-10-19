@@ -4,128 +4,125 @@ amicable::~amicable() {
 	delete[] _map;
 }
 
-amicable::amicable(ui number) :_number(number), _array(number,false) {
+amicable::amicable(ui number) :_number(number),_array(false) {
 
 	cout << "The following are amicable numbers" << endl;
 	int index = 0;
 	ui i = 2;
 	_map = new ui[number];
 	while(i < number) {
-		//if(_array[i] != 1)
 		_findFactors(i, index);
 		i++;
 	}
 }
 
 void amicable::_findFactors(ui number, int& index) {
-	ui sum = 1;
-	int id = 1;
-
-	/*bool * refArr = new bool[number + 1];
-	for (ui i = 0; i <= number; i++) {
-		refArr[i] = true;
-	}
-	ui root = sqrt(number);
-
-	if (number == 220) {
-		cout << "Here" << endl;
-	}
-
-	ui j = 2;
-	while (j <= root) {
-		ui index = j;
-		while (index < number) {
-			index = index + j;
-			if (index <= number && refArr[index] == true) {
-				refArr[index] = false;
-			}
-		}
-		j++;
-	}
-
-	j = 2;
-	while (j <= root) {
-		if (!refArr[j]) {
-			sum += j;
-			sum += (number / j);
-		}
-		j++;
-	}
-
-	delete[] refArr;
-
-	if (sum > number) {
-		_array[number] = sum;
-		return;
-	}
-	else if (sum < number) {
-		if (_array[sum] == number) {
-			cout << setw(2) << counter << setw(2) << ":" << setw(2) << sum << " and " << number << endl;
-			counter++;
-			return;
-		}
-		else {
-			return;
-		}
-	}
-
-}*/
-
-
+	
 	ui root1 = sqrt(number);
 	ui sum1 = 1;
 	ui iter = 1;
-	_array[number][0] = 1;
+	_array[number][0] = number;
 	
 	//First find sum of factors
 	for (ui i = 2; i <= root1; i++) {
 		if (number % i == 0) {
+			//Store that factor
 			_array[number][iter++] = i;
-			sum1 += i;
+			_array[number][iter++] = number / i;
+			sum1 += i + (number/i);
+
+			//Iterate through factor's factors. Insert if they don't already exist in number's factor-list.
 			ui j = 1;
 			while (_array[i][j] != 0) {
-				bool skip = false;
+				bool iFactorFlag = false;
+				bool iiFactorFlag = false;
+
+				int iFactor = _array[i][j];
+				int iiFactor = i * _array[i][j];
+
 				for (ui k = 0; k < iter; k++) {
-					if (_array[number][k] == _array[i][j]) {
-						skip = true;
+					if (_array[number][k] == iFactor) {
+						iFactorFlag = true;
 						break;
 					}
 				}
 
-				if (!skip) {
-					_array[number][iter++] = _array[i][j];
-					_array[number][iter++] = i * _array[i][j];
-					sum1 += _array[i][j] + (i * _array[i][j]);
+				for (ui k = 0; k < iter; k++) {
+					if (_array[number][k] == iiFactor) {
+						iiFactorFlag = true;
+						break;
+					}
 				}
+
+				if (!iFactorFlag) {
+					_array[number][iter++] = iFactor;
+					sum1 += iFactor;
+				}
+
+				if (!iiFactorFlag) {
+					_array[number][iter++] = iiFactor;
+					sum1 += iiFactor;
+				}
+
 				j++;
 			}
 
+			//Iterate through number/factor's factors.
 			j = 1;
-			while (_array[number / i][j] != 0) {
-				bool skip = false;
+			while (_array[number/i][j] != 0) {
+				bool iFactorFlag = false;
+				bool iiFactorFlag = false;
+
+				int iFactor = _array[number/i][j];
+				int iiFactor = i * _array[number/i][j];
+
 				for (ui k = 0; k < iter; k++) {
-					if (_array[number][k] == _array[number / i][j]) {
-						skip = true;
+					if (_array[number][k] == iFactor) {
+						iFactorFlag = true;
 						break;
 					}
 				}
 
-				if (!skip) {
-					_array[number][iter++] = _array[number / i][j];
-					_array[number][iter++] = i * _array[number / i][j];
-					sum1 += _array[number / i][j] + (i * _array[number / i][j]);
+				for (ui k = 0; k < iter; k++) {
+					if (_array[number][k] == iiFactor) {
+						iiFactorFlag = true;
+						break;
+					}
 				}
+
+				if (!iFactorFlag) {
+					_array[number][iter++] = iFactor;
+					sum1 += iFactor;
+				}
+
+				if (!iiFactorFlag) {
+					_array[number][iter++] = iiFactor;
+					sum1 += iiFactor;
+				}
+
 				j++;
 			}
 
-			_array[number][iter++] = number / i;
-			_array[number][iter] = 0;
 			break;
 		}
 	}
 
+	_array[number][iter] = 0;
 	//Find sum of the factors of sum1
+	/*
+	for (ui i = 2; i <= root1; i++) {
+		if (number % i == 0) {
+			sum1 += i;
+			sum1 += number / i;
+		}
+	}
 
+
+	if (sum1 > number) {
+		return;
+	}
+
+	*/
 	if (sum1 > number) {
 		_map[number] = sum1;
 		return;
@@ -140,12 +137,8 @@ void amicable::_findFactors(ui number, int& index) {
 	}
 
 }
-	
 	/*
 
-
-
-	/*
 	ui sum2 = 1;
 	ui root2 = sqrt(sum1);
 	for (ui i = 2; i <= root2; i++) {
@@ -155,9 +148,8 @@ void amicable::_findFactors(ui number, int& index) {
 		}
 	}
 
-	*/
 	//Fill the position of that number in array with the sum
-	/*
+	
 
 	if (number == sum2 && sum1 != sum2) {
 		ui a = ((number < sum1) ? number : sum1);
@@ -174,11 +166,13 @@ void amicable::_findFactors(ui number, int& index) {
 		index++;
 		//number = sum1;
 	}
-
+	*/
 	//Check the value against sum in the array.
+	
 
-	if (sum1 <= _number && sum1  && sum != number) {
-		cout << setw(2) << index << setw(2) << ":" << setw(2) << sum << " and " << number << endl;
+	/*
+	if (sum1 <= _number && sum1 != number) {
+		cout << setw(2) << index << setw(2) << ":" << setw(2) << sum1 << " and " << number << endl;
 		index++;
-	}*/
-//}
+	}
+	*/
