@@ -6,13 +6,11 @@ public:
 	truthtable(int number, bool display = false);
 	~truthtable();
 private:
-	//Matrix used to store the output
-	char** _matrix;
-	void _build(long long);
-	char* _toBinString(long long);
-	int _digits;
+	char* _toBinString(long long int);
+	void _iterateTillZero(long long int);
+	long long int _digits;
 	bool _display;
-	long long _rows;
+	long long int _rows;
 } tt;
 
 
