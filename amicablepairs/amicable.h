@@ -12,9 +12,10 @@ public:
 	~amicable();
 private:
 	bool _display;
-	ui* _array;
+	darray<darray<ui>> _array;
+	ui* _map;
 	ui _number;
-	void _findFactors(ui& number, int& index);
+	void _findFactors(ui number, int& index);
 
 };
 
