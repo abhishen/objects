@@ -13,10 +13,13 @@ public:
 private:
 	bool _display;
 	darray<darray<ui>> _array;
+	bool *_refArray;
+	darray<int> _primeArray;
 	ui* _map;
 	ui _number;
 	void _findFactors(ui number, int& index);
-
+	void _sieveMultiples(int);
+	void _populatePrimeArray();
 };
 
 #endif
