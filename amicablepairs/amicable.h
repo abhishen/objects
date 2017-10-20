@@ -12,7 +12,7 @@ public:
 	~amicable();
 private:
 	bool _display;
-	darray<darray<ui>> _array;
+	darray < darray<int> > _array;
 	bool *_refArray;
 	darray<int> _primeArray;
 	ui* _map;

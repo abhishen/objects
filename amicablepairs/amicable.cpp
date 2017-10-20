@@ -30,9 +30,9 @@ void amicable::_populatePrimeArray() {
 	}
 }
 
-amicable::amicable(ui number) :_number(number),_array(false),_primeArray(false) {
+amicable::amicable(ui number) :_number(number),_primeArray(false),_array(false) {
 	_refArray = new bool[number + 1];
-	for (int i = 0; i <= number; i++) {
+	for (ui i = 0; i <= number; i++) {
 		_refArray[i] = true;
 	}
 	_sieveMultiples(sqrt(number));
@@ -49,53 +49,97 @@ amicable::amicable(ui number) :_number(number),_array(false),_primeArray(false) 
 }
 
 void amicable::_findFactors(ui number, int& index) {
-	
+	//Find prime factor
+	if (number == 220 || number == 284) {
+		cout << "Here" << endl;
+	}
+	ui root = sqrt(number);
 	ui sum1 = 1;
 	ui iter = 1;
+	_array[number][0] = number;
+	int i = 2;
+	while (_primeArray[i] <= root) {
+		int prime = _primeArray[i];
+		//Prime number is a factor
+		if (number%prime == 0) {
+			//Store that prime number as a factor
+			_array[number][iter++] = prime;
 
-	//First find all prime factors and their powers
-	ui numberIndex = number;
-	ui i = 2;
-	while(_primeArray[i] <= sqrt(number)) {
-		int primeFactor = _primeArray[i];
-		if (number%primeFactor != 0) {
-			i++;
-			continue;
+			int other = number / prime;
+			if (_refArray[other] == true) {
+				//If other number is prime.
+				_array[number][iter++] = other;
+			}
+			else {
+				//Store that number's prime factors, if they dont already exist in the array.
+				int otherIter = 1;
+				while (_array[other][otherIter] != 0) {
+					bool otherFactorFlag = false;
+					int otherFactor = _array[other][otherIter];
+					for (int k = 0; k < iter; k++) {
+						if (_array[number][k] == otherFactor) {
+							otherFactorFlag = true;
+							break;
+						}
+					}
+					if (!otherFactorFlag) {
+						_array[number][iter++] = otherFactor;
+					}
+					otherIter++;
+				}
+
+				//At this point you have all the factors needed.
+				break;
+			}
 		}
-		int power = 0;
-		while (number%primeFactor == 0) {
-			//if (_array[number / primeFactor][primeFactor] > 0) {
-				//power = 1 + _array[number / primeFactor][primeFactor];
-			//}
-			//else {
-				power++;
-				number = number / primeFactor;
-			//}
-		}
-		_array[numberIndex][primeFactor] = power;
+		//Else move to next prime number
+		i++;
+	}
+
+	//Put 0 at final index.
+	_array[number][iter] = 0;
+
+	//Now calculate sum using the prime factor array.
+	int id = 1;
+	int tempNumber = number;
+	while (_array[number][id] != 0) {
 		
-		int sum2 = 1;
+		//Take prime factor
+		int prime = _array[number][id];
+		int power = 0;
+
+		
+		//Find power
+		while (tempNumber%prime == 0) {
+			power++;
+			tempNumber = tempNumber / prime;
+		}
+
+		ui sum2 = 1;
+
 		while (power > 0) {
-			sum2 += pow(primeFactor, power);
+			sum2 += pow(prime, power);
 			power--;
 		}
 
 		sum1 = sum1 * sum2;
-		i++;
+		id++;
 	}
 
-	if (number > 1) {
+	if (tempNumber > 1) {
 		sum1 = sum1 * (number + 1);
 	}
-	sum1 = sum1 - numberIndex;
 
-	if (sum1 > numberIndex) {
-		_map[numberIndex] = sum1;
+	sum1 = sum1 - number;
+
+	
+	if (sum1 > number) {
+		_map[number] = sum1;
 		return;
 	}
-	else if (sum1 < numberIndex) {
-		if (_map[sum1] == numberIndex) {
-			cout << setw(2) << index << setw(2) << ":" << setw(2) << sum1 << " and " << numberIndex << endl;
+	else if (sum1 < number) {
+		if (_map[sum1] == number) {
+			cout << setw(2) << index << setw(2) << ":" << setw(2) << sum1 << " and " << number << endl;
 			index++;
 		} else {
 			return;
