@@ -83,9 +83,7 @@ ui amicable::_calculateSum(ui number) {
 
 
 void amicable::_findFactors(ui number, int& index) {
-	if (number == 110) {
-		cout << "Here" << endl;
-	}
+	
 	//Find prime factor
 	ui root = sqrt(number);
 	ui sum1 = 1;
@@ -143,7 +141,7 @@ void amicable::_findFactors(ui number, int& index) {
 					}
 					if (!otherFactorFlag) {
 						_array[number][iter] = otherFactor;
-						_power[number][iter++] = _power[otherFactor][1];
+						_power[number][iter++] = _power[other][otherIter];
 					}
 					otherIter++;
 				}
