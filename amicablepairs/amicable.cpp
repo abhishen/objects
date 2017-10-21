@@ -45,6 +45,7 @@ amicable::amicable(ui number) :_number(number),_array(false),_primeArray(false),
 			i++; 
 			continue; 
 		}
+		//cout << i << endl;
 		_findFactors(i, index);
 		i++;
 	}
@@ -52,38 +53,39 @@ amicable::amicable(ui number) :_number(number),_array(false),_primeArray(false),
 
 ui amicable::_calculateSum(ui number) {
 	ui sum = 1;
+	ui sum2 = 1;
 	ui id = 1;
 	ui tempNumber = number;
 	while (_array[number][id] != 0) {
-		
+		sum = 1;
 		//Take prime factor
 		ui prime = _array[number][id];
 		ui power = _power[number][id];
-
 		
 		//While power != 0
-		while (power >= 0) {
+		while (power > 0) {
 			sum += pow(prime,power);
 			power--;
 		}
 
-		ui sum2 = 1;
+		sum2 = sum2 * sum;
 
-		sum = sum * sum2;
 		id++;
 	}
 
-	if (tempNumber > 1) {
-		sum = sum * (number + 1);
-	}
+//	if (tempNumber > 1) {
+	//	sum = sum * (number + 1);
+	//}
 
-	return sum - number;
+	return sum2 - number;
 
 }
 
 
 void amicable::_findFactors(ui number, int& index) {
-
+	if (number == 110) {
+		cout << "Here" << endl;
+	}
 	//Find prime factor
 	ui root = sqrt(number);
 	ui sum1 = 1;
@@ -108,15 +110,19 @@ void amicable::_findFactors(ui number, int& index) {
 		//Prime number is a factor
 		if (number%prime == 0) {
 			//Store that prime number as a factor
-			_array[number][iter++] = prime;
+			_array[number][iter] = prime;
 			//Store it's power at same index
-			_power[number][iter] = _power[prime][1]; 
+			_power[number][iter++] = _power[prime][1]; 
 
 			ui other = number / prime;
+			if (other == prime) {
+				_power[number][iter - 1] = 1 + _power[prime][1];
+				break;
+			}
 			if (_refArray[other] == true) {
 				//If other number is prime.
-				_array[number][iter++] = other;
-				_power[number][iter] = _power[other][1];
+				_array[number][iter] = other;
+				_power[number][iter++] = _power[other][1];
 				//You are done now. The two factors were prime.
 				break;
 			}
@@ -130,16 +136,14 @@ void amicable::_findFactors(ui number, int& index) {
 					ui k = 0;
 					for (k = 0; k < iter; k++) {
 						if (_array[number][k] == otherFactor) {
-							_power[number][k] = 1 + _power[otherFactor][k++];
+							_power[number][k] = 1 + _power[other][k];
 							otherFactorFlag = true;
 							break;
 						}
 					}
 					if (!otherFactorFlag) {
-						_array[number][iter++] = otherFactor;
-						cout << _array[number][iter] << endl;
-						_power[number][iter++] = _power[otherFactor][k];
-						cout << _power[number][iter] << endl;
+						_array[number][iter] = otherFactor;
+						_power[number][iter++] = _power[otherFactor][1];
 					}
 					otherIter++;
 				}
