@@ -13,14 +13,16 @@ public:
 private:
 	bool _display;
 	darray< darray <ui> > _array;
+	darray< darray <ui> > _power;
 	bool *_refArray;
 	darray<int> _primeArray;
-//	int* _map;
+	//int* _map;
 	ui _number;
 	void _findFactors(ui number, int& index);
 	void _sieveMultiples(ui);
 	void _populatePrimeArray();
-	void _findSum(ui &sum, ui prime);
+	ui _calculateSum(ui);
+	//void _findSum(ui &sum, ui prime);
 };
 
 #endif

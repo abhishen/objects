@@ -29,7 +29,7 @@ void amicable::_populatePrimeArray() {
 	}
 }
 
-amicable::amicable(ui number) :_number(number),_array(false),_primeArray(false) {
+amicable::amicable(ui number) :_number(number),_array(false),_primeArray(false),_power(false) {
 	_refArray = new bool[number + 1];
 	for (ui i = 0; i <= number; i++) {
 		_refArray[i] = true;
@@ -50,6 +50,38 @@ amicable::amicable(ui number) :_number(number),_array(false),_primeArray(false) 
 	}
 }
 
+ui amicable::_calculateSum(ui number) {
+	ui sum = 1;
+	ui id = 1;
+	ui tempNumber = number;
+	while (_array[number][id] != 0) {
+		
+		//Take prime factor
+		ui prime = _array[number][id];
+		ui power = _power[number][id];
+
+		
+		//While power != 0
+		while (power >= 0) {
+			sum += pow(prime,power);
+			power--;
+		}
+
+		ui sum2 = 1;
+
+		sum = sum * sum2;
+		id++;
+	}
+
+	if (tempNumber > 1) {
+		sum = sum * (number + 1);
+	}
+
+	return sum - number;
+
+}
+
+
 void amicable::_findFactors(ui number, int& index) {
 
 	//Find prime factor
@@ -60,7 +92,12 @@ void amicable::_findFactors(ui number, int& index) {
 	
 	//If number is prime. Store 0 at 1st index and exit.
 	if (_refArray[number] == true) {
-		_array[number][1] = 0;
+		//_array[number][1] = 0;
+		_array[number][1] = 1;
+		_array[number][2] = 0;
+		//Store it's power in the power array
+		_power[number][1] = 1;
+		_power[number][2] = 0;
 		return;
 	}
 	
@@ -72,28 +109,37 @@ void amicable::_findFactors(ui number, int& index) {
 		if (number%prime == 0) {
 			//Store that prime number as a factor
 			_array[number][iter++] = prime;
+			//Store it's power at same index
+			_power[number][iter] = _power[prime][1]; 
 
 			ui other = number / prime;
 			if (_refArray[other] == true) {
 				//If other number is prime.
 				_array[number][iter++] = other;
+				_power[number][iter] = _power[other][1];
 				//You are done now. The two factors were prime.
 				break;
 			}
 			else {
-				//Store that number's prime factors, if they dont already exist in the array.
+				//Store other number's prime factors, if they dont already exist in the array.
 				ui otherIter = 1;
+				//Iterate through other's factors until you reach the end.
 				while (_array[other][otherIter] != 0) {
 					bool otherFactorFlag = false;
 					ui otherFactor = _array[other][otherIter];
-					for (ui k = 0; k < iter; k++) {
+					ui k = 0;
+					for (k = 0; k < iter; k++) {
 						if (_array[number][k] == otherFactor) {
+							_power[number][k] = 1 + _power[otherFactor][k++];
 							otherFactorFlag = true;
 							break;
 						}
 					}
 					if (!otherFactorFlag) {
 						_array[number][iter++] = otherFactor;
+						cout << _array[number][iter] << endl;
+						_power[number][iter++] = _power[otherFactor][k];
+						cout << _power[number][iter] << endl;
 					}
 					otherIter++;
 				}
@@ -111,6 +157,8 @@ void amicable::_findFactors(ui number, int& index) {
 
 	//Now calculate sum using the prime factor array.
 	//if(_array[number][0] == -1) return;
+
+	/*
 	ui id = 1;
 	ui tempNumber = number;
 	while (_array[number][id] != 0) {
@@ -141,15 +189,15 @@ void amicable::_findFactors(ui number, int& index) {
 		sum1 = sum1 * (number + 1);
 	}
 
-	sum1 = sum1 - number;
+	*/
 
-	/*
+	sum1 = _calculateSum(number);
+	
+	
 	if( ( sum1%2 == 0 && number%2 != 0 ) || ( sum1%2 != 0 && number%2 == 0 ) ) {
-		_array[number][0] = -1;
-		_array[sum1][0] = -1;
 		return;
 	}
-	*/
+	
 	
 	if (sum1 > number) {
 		_array[number][0] = sum1;
@@ -159,7 +207,7 @@ void amicable::_findFactors(ui number, int& index) {
 		//if (sum1 % 6 == 0 || number % 6 == 0) return;
 		//if( ( sum1%2 == 0 && number%2 != 0 ) || ( sum1%2 != 0 && number%2 == 0 ) )
 		if (_array[sum1][0] == number) {
-			cout << setw(2) << index << setw(2) << ":" << setw(2) << sum1 << " and " << number << endl;
+			cout << setw(2) << index << setw(2) << " : " << setw(3) << sum1 << " and " << number << endl;
 			index++;
 		} else {
 			return;
