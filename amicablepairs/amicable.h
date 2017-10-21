@@ -12,14 +12,15 @@ public:
 	~amicable();
 private:
 	bool _display;
-	darray < darray<int> > _array;
+	darray< darray <ui> > _array;
 	bool *_refArray;
 	darray<int> _primeArray;
-	ui* _map;
+//	int* _map;
 	ui _number;
 	void _findFactors(ui number, int& index);
-	void _sieveMultiples(int);
+	void _sieveMultiples(ui);
 	void _populatePrimeArray();
+	void _findSum(ui &sum, ui prime);
 };
 
 #endif
