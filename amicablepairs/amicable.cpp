@@ -49,14 +49,19 @@ amicable::amicable(ui number) :_number(number),_primeArray(false),_array(false) 
 }
 
 void amicable::_findFactors(ui number, int& index) {
+
 	//Find prime factor
-	if (number == 220 || number == 284) {
-		cout << "Here" << endl;
-	}
 	ui root = sqrt(number);
 	ui sum1 = 1;
 	ui iter = 1;
 	_array[number][0] = number;
+	
+	//If number is prime. Store 0 at 1st index and exit.
+	if (_refArray[number] == true) {
+		_array[number][1] = 0;
+		return;
+	}
+	
 	int i = 2;
 	while (_primeArray[i] <= root) {
 		int prime = _primeArray[i];
@@ -132,12 +137,12 @@ void amicable::_findFactors(ui number, int& index) {
 
 	sum1 = sum1 - number;
 
-	
 	if (sum1 > number) {
 		_map[number] = sum1;
 		return;
 	}
 	else if (sum1 < number) {
+		if (sum1 % 6 == 0 || number % 6 == 0) return;
 		if (_map[sum1] == number) {
 			cout << setw(2) << index << setw(2) << ":" << setw(2) << sum1 << " and " << number << endl;
 			index++;
