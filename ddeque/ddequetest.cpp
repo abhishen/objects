@@ -193,6 +193,8 @@ static void print1(const char* s, ddeque<T>& a, deque<T>& g, bool print = false)
 /*----------------------------------------------------------------
 apply a function pf on elements of ddeque a
 -----------------------------------------------------------------*/
+
+/*
 template <typename T>
 static void apply(const char* s, ddeque<T>& a, deque<T>& g, void(*pf)(T& x)) {
   cout << s << endl;
@@ -212,6 +214,7 @@ static void apply(const char* s, ddeque<T>& a, deque<T>& g, void(*pf)(T& x)) {
   }
   cout << endl;
 }
+*/
 
 /*----------------------------------------------------------------
 a.front() -- Returns first element of the ddeque
@@ -283,6 +286,8 @@ begin() will point to a[0]
 end() will NOT POINT to a[9], but to one element past a[9]
 That means real end is: end()-1 ;
 -----------------------------------------------------------------*/
+
+/*
 template <typename T>
 static void understanding_iterator(ddeque<T>& a, deque<T>& g, bool display = false) {
   {
@@ -320,6 +325,8 @@ static void understanding_iterator(ddeque<T>& a, deque<T>& g, bool display = fal
   }
   cout << "-----------------" << endl;
 }
+
+*/
 
 /*----------------------------------------------------------------
 delete until empty
@@ -390,11 +397,11 @@ test
 template <typename T>
 static void test(ddeque<T>& a, deque<T>& g, void(*pf)(int x, T& o), void(*df) (T& c)) {
   print1("begin with", a, g);
-  understanding_access(a, g, pf);
-  understanding_iterator(a, g);
-  apply("multiply by 10", a, g, multiply_by_10);
+//  understanding_access(a, g, pf);
+  //understanding_iterator(a, g);
+ // apply("multiply by 10", a, g, multiply_by_10);
   cout << endl;
-  apply("print using iterator after multiplying by 10", a, g, print_obj);
+  //apply("print using iterator after multiplying by 10", a, g, print_obj);
   cout << endl;
   delete_until_empty(a, g, df);
 }
