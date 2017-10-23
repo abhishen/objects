@@ -80,7 +80,7 @@ public:
 	T& front();
 	T& back();
 	bool empty();
-	const T& operator[](int i) const;
+	T& operator[](int i);
 
   //size(), push_front() push_back() pop_front() pop_back() front() back() a[i]
   //All the above functions must have O(1) time complexity

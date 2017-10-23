@@ -179,7 +179,8 @@ static void print1(const char* s, ddeque<T>& a, deque<T>& g, bool print = false)
   cout << "size = " << a.size() << " ";
   cout << endl;
   for (int i = 0; i < int(a.size()); i++) {
-    assert(compare(a[i], g[i]));
+	cout << a[i] << " " << g[i] << endl;
+	assert(compare(a[i], g[i]));
     if (print) {
       cout << "a[" << i << "] = " << a[i] << " ";
     }
@@ -397,7 +398,7 @@ test
 template <typename T>
 static void test(ddeque<T>& a, deque<T>& g, void(*pf)(int x, T& o), void(*df) (T& c)) {
   print1("begin with", a, g);
-//  understanding_access(a, g, pf);
+  understanding_access(a, g, pf);
   //understanding_iterator(a, g);
  // apply("multiply by 10", a, g, multiply_by_10);
   cout << endl;

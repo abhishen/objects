@@ -35,6 +35,7 @@ ddeque<T>::~ddeque() {
 }
 
 
+
 template <typename T>
 int ddeque<T>::size() {
 	return _bSize + _fSize;
@@ -62,7 +63,10 @@ void ddeque<T>::pop_front() {
 
 template <typename T>
 T& ddeque<T>::front() {
-	return _frontQ[_fSize];
+	if (_isFrontQEmpty()) {
+
+	}
+	return _frontQ[_fSize-1];
 }
 
 template <typename T>
@@ -76,26 +80,38 @@ bool ddeque<T>::empty() {
 }
 
 template <typename T>
-const T& ddeque<T>::operator[](int index) const {
+T& ddeque<T>::operator[](int index) {
 	//If back queue is empty. Use index - 1.
+	if (index < 0) {
+		assert(0);
+	}
+	
 	if (_bSize == 0) {
 		//Index has to be in range.
 		if (index <= _fSize) {
-			return _frontQ[index - 1];
+			return _frontQ[_fSize - index - 1];
+		}
+		else {
+		//Out of range
+			assert(0);
 		}
 	}
 	else if (_fSize == 0) {
 	//If front queue is empty, use backQueue starting from end.
 		if (index <= _bSize) {
-			return _backQ[_bSize - index];
+			return _backQ[_bSize];
+		}
+		else {
+		//Out of range
+			assert(0);
 		}
 	}
 	else {
 	//If both are not empty.
-		int difference = _bSize - index;
+		int difference = _bSize - 1 - index;
 		//If difference is >=0, it means object is in backQueue.
 		if (difference >= 0) {
-			return _backQ[_bSize - index];
+			return _backQ[difference];
 		}
 		else {
 			//Use abs(difference)-1 as index
@@ -104,7 +120,7 @@ const T& ddeque<T>::operator[](int index) const {
 
 	}
 
-	return -1;
+	assert(0);
 }
 
 
