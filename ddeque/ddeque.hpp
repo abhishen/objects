@@ -117,14 +117,6 @@ bool ddeque<T>::empty() {
 }
 
 
-template <typename T>
-bool ddeque<T>::operator==(T& rhs) const {
-	if ( == rhs) {
-		return true;
-	}
-	return false;
-}
-
 
 template <typename T>
 T& ddeque<T>::operator[](int index) {

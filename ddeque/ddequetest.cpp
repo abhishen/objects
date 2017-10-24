@@ -180,7 +180,7 @@ static void print1(const char* s, ddeque<T>& a, deque<T>& g, bool print = false)
   cout << endl;
   for (int i = 0; i < int(a.size()); i++) {
 	cout << a[i] << " " << g[i] << endl;
-	if (a[i] == 77) {
+	if ( g[i] == T(77) ) {
 		cout << "Here" << endl;
 	}
 	assert(compare(a[i], g[i]));
