@@ -16,7 +16,7 @@ Write all code here
 Constructor
 -----------------------------------------------------------------*/
 template <typename T>
-ddeque<T>::ddeque(bool d): _bSize(0),_fSize(0),_frontQ(false),_backQ(false) {
+ddeque<T>::ddeque(bool d): _bSize(0),_fSize(0),_frontQ(false),_backQ(false),_fStart(0),_bStart(0) {
 	if (display()) {
 		cout << "In ddeque constructor" << endl;
 	}
@@ -44,7 +44,8 @@ int ddeque<T>::size() {
 template <typename T> 
 void ddeque<T>::push_back(T& object) {
 	if (_fStart == 0) {
-		_backQ[_bSize++] = object;
+		_backQ[_bStart+_bSize] = object;
+		_bSize++;
 		return;
 	}
 	else if (_fStart > 0) {
@@ -57,7 +58,8 @@ void ddeque<T>::push_back(T& object) {
 template <typename T>
 void ddeque<T>::push_front(T& object) {
 	if (_bStart == 0) {
-		_frontQ[_fSize++] = object;
+		_frontQ[_fStart+_fSize] = object;
+		_fSize++;
 		return;
 	}
 	else if (_bStart > 0) {
@@ -98,7 +100,7 @@ T& ddeque<T>::front() {
 	if (_isFrontQEmpty()) {
 		return _backQ[_bStart];
 	}
-	return _frontQ[_fSize-1];
+	return _frontQ[_fStart+_fSize-1];
 }
 
 template <typename T>
@@ -106,7 +108,7 @@ T& ddeque<T>::back() {
 	if (_isBackQEmpty()) {
 		return _frontQ[_fStart];
 	}
-	return _backQ[_bSize];
+	return _backQ[_bStart+_bSize-1];
 }
 
 template <typename T>
@@ -124,7 +126,7 @@ T& ddeque<T>::operator[](int index) {
 	if (_bSize == 0) {
 		//Index has to be in range.
 		if (index <= _fSize) {
-			return _frontQ[_fSize - index - 1];
+			return _frontQ[_fStart+_fSize - index - 1];
 		}
 		else {
 		//Out of range
@@ -143,10 +145,10 @@ T& ddeque<T>::operator[](int index) {
 	}
 	else {
 	//If both are not empty.
-		int difference = _bSize - 1 - index;
+		int difference = _fSize - 1 - index;
 		//If difference is >=0, it means object is in backQueue.
 		if (difference >= 0) {
-			return _backQ[difference];
+			return _frontQ[difference];
 		}
 		else {
 			//Use abs(difference)-1 as index
