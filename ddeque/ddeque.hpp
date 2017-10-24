@@ -43,34 +43,69 @@ int ddeque<T>::size() {
 
 template <typename T> 
 void ddeque<T>::push_back(T& object) {
-	_backQ[_bSize++] = object;
+	if (_fStart == 0) {
+		_backQ[_bSize++] = object;
+		return;
+	}
+	else if (_fStart > 0) {
+		_frontQ[--_fStart] = object;
+		++_fSize;
+		return;
+	}
 }
 
 template <typename T>
 void ddeque<T>::push_front(T& object) {
-	_frontQ[_fSize++] = object;
+	if (_bStart == 0) {
+		_frontQ[_fSize++] = object;
+		return;
+	}
+	else if (_bStart > 0) {
+		_backQ[--_bStart] = object;
+		++_bSize;
+		return;
+	}
 }
 
 template <typename T>
 void ddeque<T>::pop_back() {
-	--_bSize;
+	if (!_isBackQEmpty()) {
+		--_bSize;
+		return;
+	}
+	else if (!_isFrontQEmpty()) {
+		++_fStart;
+		--_fSize;
+		return;
+	}
 }
 
 template <typename T>
 void ddeque<T>::pop_front() {
-	--_fSize;
+	if (!_isFrontQEmpty()) {
+		--_fSize;
+		return;
+	}
+	else if (!_isBackQEmpty()) {
+		++_bStart;
+		--_bSize;
+		return;
+	}
 }
 
 template <typename T>
 T& ddeque<T>::front() {
 	if (_isFrontQEmpty()) {
-
+		return _backQ[_bStart];
 	}
 	return _frontQ[_fSize-1];
 }
 
 template <typename T>
 T& ddeque<T>::back() {
+	if (_isBackQEmpty()) {
+		return _frontQ[_fStart];
+	}
 	return _backQ[_bSize];
 }
 
@@ -81,7 +116,7 @@ bool ddeque<T>::empty() {
 
 template <typename T>
 T& ddeque<T>::operator[](int index) {
-	//If back queue is empty. Use index - 1.
+	//If back queue is empty. Use front queue starting from end.
 	if (index < 0) {
 		assert(0);
 	}
@@ -97,9 +132,9 @@ T& ddeque<T>::operator[](int index) {
 		}
 	}
 	else if (_fSize == 0) {
-	//If front queue is empty, use backQueue starting from end.
+	//If front queue is empty, use backQueue starting from it's first position _bStart.
 		if (index <= _bSize) {
-			return _backQ[_bSize];
+			return _backQ[_bStart + index];
 		}
 		else {
 		//Out of range

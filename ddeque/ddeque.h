@@ -101,6 +101,9 @@ private:
 	darray<T> _backQ;
 	int _bSize;
 	int _fSize;
+	int _bStart;
+	int _fStart;
+
 	bool _display;
 
 	int _getFrontQSize() {
