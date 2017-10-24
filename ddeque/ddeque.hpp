@@ -154,7 +154,7 @@ T& ddeque<T>::operator[](int index) {
 		}
 		else {
 			//Use abs(difference)-1 as index
-			return _frontQ[abs(difference) - 1];
+			return _backQ[abs(difference) - 1];
 		}
 
 	}
