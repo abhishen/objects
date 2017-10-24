@@ -96,20 +96,32 @@ void ddeque<T>::pop_front() {
 }
 
 template <typename T>
-T& ddeque<T>::front() {
+T& ddeque<T>::_front() {
 	if (_isFrontQEmpty()) {
 		return _backQ[_bStart];
 	}
-	return _frontQ[_fStart+_fSize-1];
+	return _frontQ[_fStart + _fSize - 1];
+}
+
+template <typename T>
+T& ddeque<T>::front() {
+	return _front();
+}
+
+
+template <typename T>
+T& ddeque<T>::_back() {
+	if (_isBackQEmpty()) {
+		return _frontQ[_fStart];
+	}
+	return _backQ[_bStart + _bSize - 1];
 }
 
 template <typename T>
 T& ddeque<T>::back() {
-	if (_isBackQEmpty()) {
-		return _frontQ[_fStart];
-	}
-	return _backQ[_bStart+_bSize-1];
+	return _back();
 }
+
 
 template <typename T>
 bool ddeque<T>::empty() {
