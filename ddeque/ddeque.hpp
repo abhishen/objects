@@ -116,6 +116,16 @@ bool ddeque<T>::empty() {
 	return (_isFrontQEmpty() && _isBackQEmpty());
 }
 
+
+template <typename T>
+bool ddeque<T>::operator==(T& rhs) const {
+	if ( == rhs) {
+		return true;
+	}
+	return false;
+}
+
+
 template <typename T>
 T& ddeque<T>::operator[](int index) {
 	//If back queue is empty. Use front queue starting from end.

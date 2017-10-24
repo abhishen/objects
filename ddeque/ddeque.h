@@ -81,6 +81,7 @@ public:
 	T& back();
 	bool empty();
 	T& operator[](int i);
+	bool operator==(T&) const;
 
   //size(), push_front() push_back() pop_front() pop_back() front() back() a[i]
   //All the above functions must have O(1) time complexity
