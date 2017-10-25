@@ -16,7 +16,7 @@ Write all code here
 Constructor
 -----------------------------------------------------------------*/
 template <typename T>
-ddeque<T>::ddeque(bool d): _bSize(0),_fSize(0),_frontQ(false),_backQ(false),_fStart(0),_bStart(0) {
+ddeque<T>::ddeque(bool d): _bSize(0),_fSize(0),_frontQ(false),_backQ(false),_fStart(0),_bStart(0),_bEnd(0),_fEnd(0) {
 	if (display()) {
 		cout << "In ddeque constructor" << endl;
 	}
@@ -45,7 +45,8 @@ template <typename T>
 void ddeque<T>::push_back(T& object) {
 	if (_fStart == 0) {
 		_backQ[_bStart+_bSize] = object;
-		_bSize++;
+		++_bEnd;
+		++_bSize;
 		return;
 	}
 	else if (_fStart > 0) {
@@ -59,7 +60,8 @@ template <typename T>
 void ddeque<T>::push_front(T& object) {
 	if (_bStart == 0) {
 		_frontQ[_fStart+_fSize] = object;
-		_fSize++;
+		++_fEnd;
+		++_fSize;
 		return;
 	}
 	else if (_bStart > 0) {
@@ -73,6 +75,7 @@ template <typename T>
 void ddeque<T>::pop_back() {
 	if (!_isBackQEmpty()) {
 		--_bSize;
+		--_bEnd;
 		return;
 	}
 	else if (!_isFrontQEmpty()) {
@@ -86,6 +89,7 @@ template <typename T>
 void ddeque<T>::pop_front() {
 	if (!_isFrontQEmpty()) {
 		--_fSize;
+		--_fEnd;
 		return;
 	}
 	else if (!_isBackQEmpty()) {
@@ -96,30 +100,37 @@ void ddeque<T>::pop_front() {
 }
 
 template <typename T>
-T& ddeque<T>::_front() {
+T& ddeque<T>::_frontEnd() {
+	//If frontQ end pointer is < 0
+	if (_fEnd < 0) {
+		return _backQ[_bStart];
+	}
+	return _frontQ[_fStart + _fEnd - 1];
+}
+
+template <typename T>
+T& ddeque<T>::front() {
 	if (_isFrontQEmpty()) {
 		return _backQ[_bStart];
 	}
 	return _frontQ[_fStart + _fSize - 1];
 }
 
-template <typename T>
-T& ddeque<T>::front() {
-	return _front();
-}
-
 
 template <typename T>
-T& ddeque<T>::_back() {
-	if (_isBackQEmpty()) {
+T& ddeque<T>::_backEnd() {
+	if (_bEnd == 0) {
 		return _frontQ[_fStart];
 	}
-	return _backQ[_bStart + _bSize - 1];
+	return _backQ[_bStart + _bEnd - 1];
 }
 
 template <typename T>
 T& ddeque<T>::back() {
-	return _back();
+	if (_isBackQEmpty()) {
+		return _frontQ[_fStart];
+	}
+	return _backQ[_bStart + _bSize - 1];
 }
 
 

@@ -28,38 +28,39 @@ class ddeque_iterator;
 /*--------------------------------------------------------
 typename ddeque iterator
 ----------------------------------------------------------*/
-
 template <typename T>
 class ddeque_iterator {
 public:
 	//WRITE CODE
-	ddeque_iterator(T* x = 0) :_current(x) {};
-	~ddeque_iterator() {};
+	ddeque_iterator(T* x = 0) :_current(x) {}
+	~ddeque_iterator() {}
 	
 	T& operator*() {
 		return *(_current);
 	}
 	
-	ddeque_iterator& operator++() {
-		//++_current;
-		//return *this;
+	ddeque<T> obj;
+	//template <typename T>
+	const ddeque_iterator& operator++() {
 
 		//Current is in frontQ
-		if (_current > &(_frontQ[_fStart])) {
+		if (_current > &(obj._frontQ[obj._fStart])) {
 			--_current;
 			return *this;
 		}
 
 		//Current is at _fStart == 0 and _backQ is empty.
-		if (_current == &(_frontQ[_fStart]) && _bSize == 0) {
+		if (_current == &(obj._frontQ[0]) && obj._bSize == 0) {
 			//No need to check if _fStart == 0. This will be handled by iterator end().
-			_current = &_back() - 1;
+			_current = &(obj._backEnd()) - 1;
+			--obj._bEnd;
 			return *this;
 		}
 
 		//Current is at _fStart == 0 and _backQ is not empty.
-		if (_current == &(_frontQ[_fStart]) && _bSize != 0) {
-			_current = _backQ[_bStart];
+		if (_current == &(obj._frontQ[obj._fStart]) && obj._bEnd != 0) {
+			_current = &(obj._backQ[obj._bStart]);
+			obj._fEnd = 0;
 			return *this;
 		}
 
@@ -67,43 +68,28 @@ public:
 		++_current;
 		return *this;
 	}
-		/*if (_fStart > 0 ) {
-			//If all elements past frontStart
-			_current = &(_back() - 1);
-			return *this;
-		}
-		else if (_bStart == 0 && _bSize == 0) {
-			//If elements end at fStart == 0
-			_current = &(_back() - 1);
-			return *this;
-		}
-		else {
-			//If elements present in backQ
-			_current = &(_back() + 1);
-			return *this;
-		}*/
 
-	
-	ddeque_iterator& operator--() {
-		//--_current;
-		//return *this;
-
+	//template <typename T>
+	const ddeque_iterator& operator--() {
+		
 		//Current is in frontQ
-		if (_current >= &(_frontQ[_fStart])) {
+		if (_current >= &(obj._frontQ[obj._fStart])) {
 			++_current;
 			return *this;
 		}
 
 		//Current is at _bStart == 0 and _frontQ is empty.
-		if (_current == &(_backQ[_bStart]) && _fSize == 0) {
+		if (_current == &(obj._backQ[obj._bStart]) && obj._fEnd == 0) {
 			//No need to check if _bStart == 0. This will be handled by iterator end().
-			_current = &_front() - 1;
+			_current = &(obj._frontEnd()) - 1;
+			--obj._fEnd;
 			return *this;
 		}
 
 		//Current is at _bStart == 0 and _frontQ is not empty.
-		if (_current == &(_backQ[_bStart]) && _fSize != 0) {
-			_current = _frontQ[_fStart];
+		if (_current == &(obj._backQ[obj._bStart]) && obj._fEnd != 0) {
+			_current = &(obj._frontQ[obj._fStart]);
+			obj._bEnd = 0;
 			return *this;
 		}
 
@@ -112,28 +98,11 @@ public:
 		return *this;
 
 	}
-
-		/*if (_fStart > 0) {
-			//If all elements past frontStart
-			_current = &(_back() + 1);
-			return *this;
-		}
-		else if (_bStart == 0 && _bSize == 0) {
-			//If elements end at fStart == 0
-			_current = &(_back() - 1);
-			return *this;
-		}
-		else {
-			//If elements present in backQ
-			_current = &(_back() + 1);
-			return *this;
-		}
-	}*/
-
 	
 	bool operator != (const ddeque_iterator& rhs) {
 		return (_current != rhs._current);
 	}
+
 private:
   //WRITE CODE
 	T* _current;
@@ -147,19 +116,20 @@ class ddeque {
 public:
   /* WRITE ALL PUBLIC FUNCTION HERE */
   /* CANNOT HAVE ANY PUBLIC DATA HERE */
-
 	typedef ddeque_iterator<T> iterator;
-	iterator begin() { return iterator(&(_front())); }
+	friend class iterator;
+	
+	iterator begin() { return iterator(&(_frontEnd())); }
 	iterator end() {
 		if (_fStart > 0) {
 			//If elements end in fQ itself
-			return iterator (&_back() - 1);
+			return iterator (&_backEnd() - 1);
 		}
 		else if (_bStart == 0 && _bSize == 0) {
-			return iterator (&_back() - 1);
+			return iterator (&_backEnd() - 1);
 		}
 		else {
-			return iterator (&_back() + 1);
+			return iterator (&_backEnd() + 1);
 		}
 	}
 		
@@ -187,7 +157,6 @@ public:
 		_display = x;
 	}
 
-	friend class ddeque_iterator <T>;
 
 private:
   /* MUST USE only darray<T>. You can use multiples of darray<T> */
@@ -199,8 +168,10 @@ private:
 	int _fSize;
 	int _bStart;
 	int _fStart;
-	T& _front();
-	T& _back();
+	int _bEnd;
+	int _fEnd;
+	T& _frontEnd();
+	T& _backEnd();
 
 	bool _display;
 
@@ -220,7 +191,7 @@ private:
 	}
 
   /* CAN HAVE ANY PRIVATE FUNCION */
-  void _put(int pos, const T& a);
+  //void _put(int pos, const T& a);
 };
 
 #include "ddeque.hpp"
