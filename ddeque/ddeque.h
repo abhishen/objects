@@ -40,96 +40,133 @@ public:
 		return *(_current);
 	}
 	
-	ddeque_iterator& operator++() {
-		//++_current;
-		//return *this;
+	ddeque <T> obj;
 
-		//Current is in frontQ
-		if (_current > &(_frontQ[_fStart])) {
+	ddeque_iterator& operator++() {
+		//Condition 1.
+		//Iterator is in the middle or end of frontQ.
+		//Decrement current pointer to point at next element ie. prev element in darray frontQ.
+		if (_current > &(obj._frontQ[obj._fStart])) {
 			--_current;
 			return *this;
 		}
 
-		//Current is at _fStart == 0 and _backQ is empty.
-		if (_current == &(_frontQ[_fStart]) && _bSize == 0) {
-			//No need to check if _fStart == 0. This will be handled by iterator end().
-			_current = &_back() - 1;
+		//Condition 2.
+		//Iterator is at first element in frontQ. Can be 0 or more in frontQ
+			//Either backQ is not empty and has elements.
+				//Move pointer to 0th position of backQ. Not bStart. fStart and bStart MUST be 0 in this case. Else there is a bug.
+			//backQ is empty and iterator is actually at the last position possible
+				//Move pointer to end position
+
+		if (_current == &(obj._frontQ[obj._fStart]) && obj._bSize > 0) {
+			assert(obj._fStart == 0);
+			assert(obj._bStart == 0);
+			_current = &(obj._backQ[0]);
 			return *this;
 		}
 
-		//Current is at _fStart == 0 and _backQ is not empty.
-		if (_current == &(_frontQ[_fStart]) && _bSize != 0) {
-			_current = _backQ[_bStart];
+		if (_current == &(obj._frontQ[obj._fStart]) && obj._bSize == 0) {
+			//Either _fStart can be 0.
+			if (obj._fStart == 0) {
+				_current = 0;
+				return *this;
+			}
+
+			//Or fStart can be in the middle of frontQ
+			if (obj._fStart > 0) {
+				//Here cannot assign it to fStart - 1 as there could be an element there.
+				_current = 0;
+				return *this;
+			}
+		}
+
+		//Condition 3.
+		//Iterator is at the bStart == 0 and rest of backQ is empty.
+		//Again assign 0 to pointer. bStart MUST be 0 and bSize MUST be 1 for rest of the backQ to be empty.
+		if (_current == &(obj._backQ[obj._bStart]) && obj._bSize == 1) {
+			assert(obj._bStart == 0);
+			_current = 0;
 			return *this;
 		}
 
-		//Current is in backQ
-		++_current;
-		return *this;
-	}
-		/*if (_fStart > 0 ) {
-			//If all elements past frontStart
-			_current = &(_back() - 1);
-			return *this;
-		}
-		else if (_bStart == 0 && _bSize == 0) {
-			//If elements end at fStart == 0
-			_current = &(_back() - 1);
-			return *this;
-		}
-		else {
-			//If elements present in backQ
-			_current = &(_back() + 1);
-			return *this;
-		}*/
-
-	
-	ddeque_iterator& operator--() {
-		//--_current;
-		//return *this;
-
-		//Current is in frontQ
-		if (_current >= &(_frontQ[_fStart])) {
+		//Condition 4.
+		//Iterator is somewhere in backQ
+			//Either at bStart or more and less than bSize-1
+			//In the last position possible in backQ ie. bSize-1
+		if (_current >= &(obj._backQ[obj._bStart]) && _current < &(obj._backQ[obj._bSize-1])) {
 			++_current;
 			return *this;
 		}
 
-		//Current is at _bStart == 0 and _frontQ is empty.
-		if (_current == &(_backQ[_bStart]) && _fSize == 0) {
-			//No need to check if _bStart == 0. This will be handled by iterator end().
-			_current = &_front() - 1;
+		if (_current >= &(obj._backQ[obj._bStart]) && _current == &(obj._backQ[obj._bSize - 1])) {
+			_current = 0;
 			return *this;
 		}
-
-		//Current is at _bStart == 0 and _frontQ is not empty.
-		if (_current == &(_backQ[_bStart]) && _fSize != 0) {
-			_current = _frontQ[_fStart];
-			return *this;
-		}
-
-		//Current is in backQ
-		--_current;
-		return *this;
-
 	}
 
-		/*if (_fStart > 0) {
-			//If all elements past frontStart
-			_current = &(_back() + 1);
+	
+	ddeque_iterator& operator--() {
+		//Condition 1.
+		//Iterator is in the middle or end of backQ.
+		//Decrement current pointer to point at prev element ie. prev element in darray backQ.
+		if (_current > &(obj._backQ[obj._bStart])) {
+			--_current;
 			return *this;
 		}
-		else if (_bStart == 0 && _bSize == 0) {
-			//If elements end at fStart == 0
-			_current = &(_back() - 1);
-			return *this;
-		}
-		else {
-			//If elements present in backQ
-			_current = &(_back() + 1);
-			return *this;
-		}
-	}*/
 
+		//Condition 2.
+		//Iterator is at first element in backQ. Can be 0 or more in backQ
+			//Either frontQ is not empty and has elements.
+				//Move pointer to 0th position of frontQ. Not fStart. fStart and bStart MUST be 0 in this case. Else there is a bug.
+			//frontQ is empty and iterator is actually at the first position possible
+				//Move pointer to end position
+
+		if (_current == &(obj._backQ[obj._bStart]) && obj._fSize > 0) {
+			assert(obj._fStart == 0);
+			assert(obj._bStart == 0);
+			_current = &(obj._frontQ[0]);
+			return *this;
+		}
+
+		if (_current == &(obj._backQ[obj._fStart]) && obj._fSize == 0) {
+			//Either _bStart can be 0.
+			if (obj._bStart == 0) {
+				_current = 0;
+				return *this;
+			}
+
+			//Or bStart can be in the middle of backQ
+			if (obj._bStart > 0) {
+				//Here cannot assign it to bStart - 1 as there could be an element there.
+				_current = 0;
+				return *this;
+			}
+		}
+
+		//Condition 3.
+		//Iterator is at the fStart == 0 and rest of frontQ is empty.
+		//Again assign 0 to pointer. fStart MUST be 0 and fSize MUST be 1 for rest of the frontQ to be empty.
+		if (_current == &(obj._frontQ[obj._fStart]) && obj._fSize == 1) {
+			assert(obj._fStart == 0);
+			_current = 0;
+			return *this;
+		}
+
+		//Condition 4.
+		//Iterator is somewhere in frontQ
+		//Either at fStart or more and less than fSize-1
+		//In the last position possible in frontQ ie. first position possible in deque ie. fSize - 1
+		if (_current >= &(obj._frontQ[obj._fStart]) && _current < &(obj._frontQ[obj._fSize - 1]) ) {
+			++_current;
+			return *this;
+		}
+
+		if (_current >= &(obj._frontQ[obj._fStart]) && _current == &(obj._frontQ[obj._fSize - 1]) ) {
+			_current = 0;
+			return *this;
+		}
+
+	}
 	
 	bool operator != (const ddeque_iterator& rhs) {
 		return (_current != rhs._current);
@@ -187,7 +224,7 @@ public:
 		_display = x;
 	}
 
-	friend class ddeque_iterator <T>;
+	friend class ddeque_iterator<T>;
 
 private:
   /* MUST USE only darray<T>. You can use multiples of darray<T> */

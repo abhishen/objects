@@ -299,7 +299,11 @@ static void understanding_iterator(ddeque<T>& a, deque<T>& g, bool display = fal
     typename ddeque<T>::iterator itt = a.begin();
     typename deque<T>::iterator ittg = g.begin();
     while ((itt != a.end()) && (ittg != g.end())) {
-      assert(compare(*(itt), *(ittg)));
+		cout << *(itt) << " " << *(ittg) << endl;
+		if (*ittg == T(78)) {
+			cout << "HEre" << endl;
+		}
+       assert(compare(*(itt), *(ittg)));
       if (display) {
         cout << *itt << " ";
       }
@@ -318,7 +322,8 @@ static void understanding_iterator(ddeque<T>& a, deque<T>& g, bool display = fal
     while ((itt != a.begin()) && (ittg != g.begin())) {
       --itt; //decrement iterator before using
       --ittg;
-      assert(compare(*(itt), *(ittg)));
+	  cout << *(itt) << " " << *(ittg) << endl;
+	  assert(compare(*(itt), *(ittg)));
       if (display) {
         cout << *itt << " ";
       }
