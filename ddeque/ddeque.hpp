@@ -45,7 +45,7 @@ template <typename T>
 void ddeque<T>::push_back(T& object) {
 	if (_fStart == 0) {
 		_backQ[_bStart+_bSize] = object;
-		_bSize++;
+		++_bSize;
 		return;
 	}
 	else if (_fStart > 0) {
@@ -59,7 +59,7 @@ template <typename T>
 void ddeque<T>::push_front(T& object) {
 	if (_bStart == 0) {
 		_frontQ[_fStart+_fSize] = object;
-		_fSize++;
+		++_fSize;
 		return;
 	}
 	else if (_bStart > 0) {
@@ -97,7 +97,8 @@ void ddeque<T>::pop_front() {
 
 template <typename T>
 T& ddeque<T>::_front() {
-	if (_isFrontQEmpty()) {
+	//If frontQ end pointer is < 0
+	if (_fSize == 0) {
 		return _backQ[_bStart];
 	}
 	return _frontQ[_fStart + _fSize - 1];
@@ -111,7 +112,7 @@ T& ddeque<T>::front() {
 
 template <typename T>
 T& ddeque<T>::_back() {
-	if (_isBackQEmpty()) {
+	if (_bSize == 0) {
 		return _frontQ[_fStart];
 	}
 	return _backQ[_bStart + _bSize - 1];

@@ -28,18 +28,17 @@ class ddeque_iterator;
 /*--------------------------------------------------------
 typename ddeque iterator
 ----------------------------------------------------------*/
-
 template <typename T>
 class ddeque_iterator {
 public:
 	//WRITE CODE
-	ddeque_iterator(T* x = 0) :_current(x) {};
-	~ddeque_iterator() {};
+	ddeque_iterator(T* x = 0) :_current(x) {}
+	~ddeque_iterator() {}
 	
 	T& operator*() {
 		return *(_current);
 	}
-	
+
 	ddeque <T> obj;
 
 	ddeque_iterator& operator++() {
@@ -156,21 +155,21 @@ public:
 		//Iterator is somewhere in frontQ
 		//Either at fStart or more and less than fSize-1
 		//In the last position possible in frontQ ie. first position possible in deque ie. fSize - 1
-		if (_current >= &(obj._frontQ[obj._fStart]) && _current < &(obj._frontQ[obj._fSize - 1]) ) {
+		if (_current >= &(obj._frontQ[obj._fStart]) && _current < &(obj._frontQ[obj._fSize - 1])) {
 			++_current;
 			return *this;
 		}
 
-		if (_current >= &(obj._frontQ[obj._fStart]) && _current == &(obj._frontQ[obj._fSize - 1]) ) {
+		if (_current >= &(obj._frontQ[obj._fStart]) && _current == &(obj._frontQ[obj._fSize - 1])) {
 			_current = 0;
 			return *this;
 		}
-
 	}
-	
+
 	bool operator != (const ddeque_iterator& rhs) {
 		return (_current != rhs._current);
 	}
+
 private:
   //WRITE CODE
 	T* _current;
@@ -184,8 +183,9 @@ class ddeque {
 public:
   /* WRITE ALL PUBLIC FUNCTION HERE */
   /* CANNOT HAVE ANY PUBLIC DATA HERE */
-
 	typedef ddeque_iterator<T> iterator;
+	friend class iterator;
+	
 	iterator begin() { return iterator(&(_front())); }
 	iterator end() {
 		if (_fStart > 0) {
@@ -226,6 +226,7 @@ public:
 
 	friend class ddeque_iterator<T>;
 
+
 private:
   /* MUST USE only darray<T>. You can use multiples of darray<T> */
   /* Can have some private variables */
@@ -257,7 +258,7 @@ private:
 	}
 
   /* CAN HAVE ANY PRIVATE FUNCION */
-  void _put(int pos, const T& a);
+  //void _put(int pos, const T& a);
 };
 
 #include "ddeque.hpp"

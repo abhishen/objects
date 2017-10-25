@@ -303,7 +303,7 @@ static void understanding_iterator(ddeque<T>& a, deque<T>& g, bool display = fal
 		if (*ittg == T(78)) {
 			cout << "HEre" << endl;
 		}
-       assert(compare(*(itt), *(ittg)));
+	  assert(compare(*(itt), *(ittg)));
       if (display) {
         cout << *itt << " ";
       }
@@ -410,7 +410,7 @@ static void test(ddeque<T>& a, deque<T>& g, void(*pf)(int x, T& o), void(*df) (T
   understanding_iterator(a, g);
   apply("multiply by 10", a, g, multiply_by_10);
   cout << endl;
-  apply("print using iterator after multiplying by 10", a, g, print_obj);
+  //apply("print using iterator after multiplying by 10", a, g, print_obj);
   cout << endl;
   delete_until_empty(a, g, df);
 }
