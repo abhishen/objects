@@ -405,7 +405,7 @@ test
 -----------------------------------------------------------------*/
 template <typename T>
 static void test(ddeque<T>& a, deque<T>& g, void(*pf)(int x, T& o), void(*df) (T& c)) {
-  print1("begin with", a, g);
+  //print1("begin with", a, g);
   understanding_access(a, g, pf);
   understanding_iterator(a, g);
   apply("multiply by 10", a, g, multiply_by_10);

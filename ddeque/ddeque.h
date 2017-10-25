@@ -45,7 +45,7 @@ public:
 		//Condition 1.
 		//Iterator is in the middle or end of frontQ.
 		//Decrement current pointer to point at next element ie. prev element in darray frontQ.
-		if (_current > &(obj._frontQ[obj._fStart])) {
+		if (_current > &(obj._frontQ[obj._getFStart()]) && _current < &(obj._frontQ[(obj._getFrontQSize() - 1)])) {
 			--_current;
 			return *this;
 		}
@@ -57,22 +57,22 @@ public:
 			//backQ is empty and iterator is actually at the last position possible
 				//Move pointer to end position
 
-		if (_current == &(obj._frontQ[obj._fStart]) && obj._bSize > 0) {
-			assert(obj._fStart == 0);
-			assert(obj._bStart == 0);
+		if (_current == &(obj._frontQ[obj._getFStart()]) && obj._getBackQSize() > 0) {
+			assert(obj._getFStart() == 0);
+			assert(obj._getBStart() == 0);
 			_current = &(obj._backQ[0]);
 			return *this;
 		}
 
-		if (_current == &(obj._frontQ[obj._fStart]) && obj._bSize == 0) {
+		if (_current == &(obj._frontQ[obj._getFStart()]) && obj._getBackQSize() == 0) {
 			//Either _fStart can be 0.
-			if (obj._fStart == 0) {
+			if (obj._getFStart() == 0) {
 				_current = 0;
 				return *this;
 			}
 
 			//Or fStart can be in the middle of frontQ
-			if (obj._fStart > 0) {
+			if (obj._getFStart() > 0) {
 				//Here cannot assign it to fStart - 1 as there could be an element there.
 				_current = 0;
 				return *this;
@@ -82,8 +82,8 @@ public:
 		//Condition 3.
 		//Iterator is at the bStart == 0 and rest of backQ is empty.
 		//Again assign 0 to pointer. bStart MUST be 0 and bSize MUST be 1 for rest of the backQ to be empty.
-		if (_current == &(obj._backQ[obj._bStart]) && obj._bSize == 1) {
-			assert(obj._bStart == 0);
+		if (_current == &(obj._backQ[obj._getBStart()]) && obj._getBackQSize() == 1) {
+			assert(obj._getBStart() == 0);
 			_current = 0;
 			return *this;
 		}
@@ -92,12 +92,12 @@ public:
 		//Iterator is somewhere in backQ
 			//Either at bStart or more and less than bSize-1
 			//In the last position possible in backQ ie. bSize-1
-		if (_current >= &(obj._backQ[obj._bStart]) && _current < &(obj._backQ[obj._bSize-1])) {
+		if (_current >= &(obj._backQ[obj._getBStart()]) && _current < &(obj._backQ[obj._getBackQSize() - 1])) {
 			++_current;
 			return *this;
 		}
 
-		if (_current >= &(obj._backQ[obj._bStart]) && _current == &(obj._backQ[obj._bSize - 1])) {
+		if (_current >= &(obj._backQ[obj._getBStart()]) && _current == &(obj._backQ[obj._getBackQSize() - 1])) {
 			_current = 0;
 			return *this;
 		}
@@ -108,7 +108,7 @@ public:
 		//Condition 1.
 		//Iterator is in the middle or end of backQ.
 		//Decrement current pointer to point at prev element ie. prev element in darray backQ.
-		if (_current > &(obj._backQ[obj._bStart])) {
+		if (_current > &(obj._backQ[obj._getBStart()])) {
 			--_current;
 			return *this;
 		}
@@ -120,22 +120,22 @@ public:
 			//frontQ is empty and iterator is actually at the first position possible
 				//Move pointer to end position
 
-		if (_current == &(obj._backQ[obj._bStart]) && obj._fSize > 0) {
-			assert(obj._fStart == 0);
-			assert(obj._bStart == 0);
+		if (_current == &(obj._backQ[obj._getBStart()]) && obj._getFrontQSize() > 0) {
+			assert(obj._getFStart() == 0);
+			assert(obj._getBStart() == 0);
 			_current = &(obj._frontQ[0]);
 			return *this;
 		}
 
-		if (_current == &(obj._backQ[obj._fStart]) && obj._fSize == 0) {
+		if (_current == &(obj._backQ[obj._getFStart()]) && obj._getFrontQSize() == 0) {
 			//Either _bStart can be 0.
-			if (obj._bStart == 0) {
+			if (obj._getBStart() == 0) {
 				_current = 0;
 				return *this;
 			}
 
 			//Or bStart can be in the middle of backQ
-			if (obj._bStart > 0) {
+			if (obj._getBStart() > 0) {
 				//Here cannot assign it to bStart - 1 as there could be an element there.
 				_current = 0;
 				return *this;
@@ -145,8 +145,8 @@ public:
 		//Condition 3.
 		//Iterator is at the fStart == 0 and rest of frontQ is empty.
 		//Again assign 0 to pointer. fStart MUST be 0 and fSize MUST be 1 for rest of the frontQ to be empty.
-		if (_current == &(obj._frontQ[obj._fStart]) && obj._fSize == 1) {
-			assert(obj._fStart == 0);
+		if (_current == &(obj._frontQ[obj._getFStart()]) && obj._getFrontQSize() == 1) {
+			assert(obj._getFStart() == 0);
 			_current = 0;
 			return *this;
 		}
@@ -155,12 +155,12 @@ public:
 		//Iterator is somewhere in frontQ
 		//Either at fStart or more and less than fSize-1
 		//In the last position possible in frontQ ie. first position possible in deque ie. fSize - 1
-		if (_current >= &(obj._frontQ[obj._fStart]) && _current < &(obj._frontQ[obj._fSize - 1])) {
+		if (_current >= &(obj._frontQ[obj._getFStart()]) && _current < &(obj._frontQ[obj._getFrontQSize() - 1])) {
 			++_current;
 			return *this;
 		}
 
-		if (_current >= &(obj._frontQ[obj._fStart]) && _current == &(obj._frontQ[obj._fSize - 1])) {
+		if (_current >= &(obj._frontQ[obj._getFStart()]) && _current == &(obj._frontQ[obj._getFrontQSize() - 1])) {
 			_current = 0;
 			return *this;
 		}
@@ -237,6 +237,7 @@ private:
 	int _fSize;
 	int _bStart;
 	int _fStart;
+
 	T& _front();
 	T& _back();
 
@@ -255,6 +256,14 @@ private:
 
 	bool _isBackQEmpty() {
 		return _bSize == 0;
+	}
+
+	int _getFStart() {
+		return _fStart;
+	}
+
+	int _getBStart() {
+		return _bStart;
 	}
 
   /* CAN HAVE ANY PRIVATE FUNCION */
