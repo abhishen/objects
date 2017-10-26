@@ -33,6 +33,7 @@ class ddeque_iterator {
 public:
 	//WRITE CODE
 	ddeque_iterator(ddeque<T> &dq, T* x = 0) :_current(x), _obj(dq) {
+		cout << T(*x) << endl;
 		if (_obj.display()) {
 			cout << "In iterator constructor" << endl;
 		}
@@ -47,7 +48,8 @@ public:
 		//Condition 1.
 		//Iterator is in the middle or end of frontQ.
 		//Decrement current pointer to point at next element ie. prev element in darray frontQ.
-		if (_current > &(_obj._frontQ[_obj._fStart]) && _current < &(_obj._frontQ[_obj._fSize - 1])) {
+		//if (_current > &(_obj._frontQ[_obj._fStart]) && _current < &(_obj._frontQ[_obj._fSize - 1])) {
+		if (_current > &(_obj._frontQ[_obj._fStart]) && _current <= &(_obj._frontQ[_obj._fSize - 1])) {
 			--_current;
 			return *this;
 		}

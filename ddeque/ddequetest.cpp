@@ -300,8 +300,8 @@ static void understanding_iterator(ddeque<T>& a, deque<T>& g, bool display = fal
     typename deque<T>::iterator ittg = g.begin();
     while ((itt != a.end()) && (ittg != g.end())) {
 		cout << *(itt) << " " << *(ittg) << endl;
-		if (*ittg == T(78)) {
-			cout << "HEre" << endl;
+		if (*(ittg) == T(78)) {
+			cout << "****" << endl;
 		}
 	  assert(compare(*(itt), *(ittg)));
       if (display) {
