@@ -32,11 +32,13 @@ template <typename T>
 class ddeque_iterator {
 public:
 	//WRITE CODE
-	ddeque_iterator(ddeque<T> &dq, T* x = 0) :_current(x), _obj(dq) {
-		cout << T(*x) << endl;
-		if (_obj.display()) {
-			cout << "In iterator constructor" << endl;
-		}
+	ddeque_iterator(ddeque<T> &dq, T* x = 0) :_current(x) {
+		_ifStart = dq._fSize-1;
+		_ibStart = dq._bSize-1;
+		_iBack = &(dq._backQ[0]);
+		_iFront = &(dq._frontQ[0]);
+		_ifSize = dq._fSize;
+		_ibSize = dq._bSize;
 	}
 	~ddeque_iterator() {}
 	
@@ -45,127 +47,49 @@ public:
 	}
 
 	ddeque_iterator& operator++() {
-		//Condition 1.
-		//Iterator is in the middle or end of frontQ.
-		//Decrement current pointer to point at next element ie. prev element in darray frontQ.
-		//if (_current > &(_obj._frontQ[_obj._fStart]) && _current < &(_obj._frontQ[_obj._fSize - 1])) {
-		if (_current > &(_obj._frontQ[_obj._fStart]) && _current <= &(_obj._frontQ[_obj._fSize - 1])) {
+		//Iterator in frontQ
+		if (_ifStart > 0 && _ifStart < _ifSize) {
 			--_current;
+			--_ifStart;
 			return *this;
 		}
 
-		//Condition 2.
-		//Iterator is at first element in frontQ. Can be 0 or more in frontQ
-			//Either backQ is not empty and has elements.
-				//Move pointer to 0th position of backQ. Not bStart. fStart and bStart MUST be 0 in this case. Else there is a bug.
-			//backQ is empty and iterator is actually at the last position possible
-				//Move pointer to end position
-
-		if (_current == &(_obj._frontQ[_obj._fStart]) && _obj._bSize > 0) {
-			assert(_obj._fStart == 0);
-			assert(_obj._bStart == 0);
-			_current = &(_obj._backQ[0]);
+		//Iterator has reached 0th position
+		if (_ifStart == 0) {
+			--_ifStart;
+			_ibStart = 0;
+			_current = _iBack;
 			return *this;
 		}
 
-		if (_current == &(_obj._frontQ[_obj._fStart]) && _obj._bSize == 0) {
-			//Either _fStart can be 0.
-			if (_obj._fStart == 0) {
-				_current = 0;
-				return *this;
-			}
-
-			//Or fStart can be in the middle of frontQ
-			if (_obj._fStart > 0) {
-				//Here cannot assign it to fStart - 1 as there could be an element there.
-				_current = 0;
-				return *this;
-			}
-		}
-
-		//Condition 3.
-		//Iterator is at the bStart == 0 and rest of backQ is empty.
-		//Again assign 0 to pointer. bStart MUST be 0 and bSize MUST be 1 for rest of the backQ to be empty.
-		if (_current == &(_obj._backQ[_obj._bStart]) && _obj._bSize == 1) {
-			assert(_obj._bStart == 0);
-			_current = 0;
-			return *this;
-		}
-
-		//Condition 4.
-		//Iterator is somewhere in backQ
-			//Either at bStart or more and less than bSize-1
-			//In the last position possible in backQ ie. bSize-1
-		if (_current >= &(_obj._backQ[_obj._bStart]) && _current < &(_obj._backQ[_obj._bSize - 1])) {
+		//Iterator in backQ
+		if (_ibStart >= 0 && _ibStart < _ibSize) {
 			++_current;
-			return *this;
-		}
-
-		if (_current >= &(_obj._backQ[_obj._bStart]) && _current == &(_obj._backQ[_obj._bSize - 1])) {
-			_current = 0;
+			++_ibStart;
 			return *this;
 		}
 	}
-
 	
 	ddeque_iterator& operator--() {
-		//Condition 1.
-		//Iterator is in the middle or end of backQ.
-		//Decrement current pointer to point at prev element ie. prev element in darray backQ.
-		if (_current > &(_obj._backQ[_obj._bStart])) {
+		//Iterator in backQ
+		if (_ibStart >= 0 && _ibStart < _ibSize) {
 			--_current;
+			--_ibStart;
 			return *this;
 		}
 
-		//Condition 2.
-		//Iterator is at first element in backQ. Can be 0 or more in backQ
-			//Either frontQ is not empty and has elements.
-				//Move pointer to 0th position of frontQ. Not fStart. fStart and bStart MUST be 0 in this case. Else there is a bug.
-			//frontQ is empty and iterator is actually at the first position possible
-				//Move pointer to end position
-
-		if (_current == &(_obj._backQ[_obj._bStart]) && _obj._fSize > 0) {
-			assert(_obj._fStart == 0);
-			assert(_obj._bStart == 0);
-			_current = &(_obj._frontQ[0]);
+		//Iterator has reached 0th position
+		if (_ibStart < 0 ) {
+			_ifStart = 0;
+			_ibStart = _ibSize;
+			_current = _iFront;
 			return *this;
 		}
 
-		if (_current == &(_obj._backQ[_obj._fStart]) && _obj._fSize == 0) {
-			//Either _bStart can be 0.
-			if (_obj._bStart == 0) {
-				_current = 0;
-				return *this;
-			}
-
-			//Or bStart can be in the middle of backQ
-			if (_obj._bStart > 0) {
-				//Here cannot assign it to bStart - 1 as there could be an element there.
-				_current = 0;
-				return *this;
-			}
-		}
-
-		//Condition 3.
-		//Iterator is at the fStart == 0 and rest of frontQ is empty.
-		//Again assign 0 to pointer. fStart MUST be 0 and fSize MUST be 1 for rest of the frontQ to be empty.
-		if (_current == &(_obj._frontQ[_obj._fStart]) && _obj._fSize == 1) {
-			assert(_obj._fStart == 0);
-			_current = 0;
-			return *this;
-		}
-
-		//Condition 4.
-		//Iterator is somewhere in frontQ
-		//Either at fStart or more and less than fSize-1
-		//In the last position possible in frontQ ie. first position possible in deque ie. fSize - 1
-		if (_current >= &(_obj._frontQ[_obj._fStart]) && _current < &(_obj._frontQ[_obj._fSize - 1])) {
+		//Iterator in frontQ
+		if (_ifStart >= 0 && _ifStart < _ifSize) {
 			++_current;
-			return *this;
-		}
-
-		if (_current >= &(_obj._frontQ[_obj._fStart]) && _current == &(_obj._frontQ[_obj._fSize - 1])) {
-			_current = 0;
+			++_ifStart;
 			return *this;
 		}
 	}
@@ -177,7 +101,12 @@ public:
 private:
   //WRITE CODE
 	T* _current;
-	ddeque <T> _obj;
+	T* _iFront;
+	T* _iBack;
+	int _ifStart;
+	int _ibStart;
+	int _ifSize;
+	int _ibSize;
 };
 
 /*--------------------------------------------------------
@@ -189,7 +118,6 @@ public:
   /* WRITE ALL PUBLIC FUNCTION HERE */
   /* CANNOT HAVE ANY PUBLIC DATA HERE */
 	typedef ddeque_iterator<T> iterator;
-	friend class iterator;
 	
 	iterator begin() { return iterator(*this, &(_front())); }
 	
