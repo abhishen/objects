@@ -16,7 +16,7 @@ Write all code here
 Constructor
 -----------------------------------------------------------------*/
 template <typename T>
-ddeque<T>::ddeque(bool d): _bSize(0),_fSize(0),_frontQ(false),_backQ(false),_fStart(0),_bStart(0) {
+ddeque<T>::ddeque(bool d):_display(d),_bSize(0),_fSize(0),_frontQ(false),_backQ(false),_fStart(0),_bStart(0) {
 	if (display()) {
 		cout << "In ddeque constructor" << endl;
 	}
