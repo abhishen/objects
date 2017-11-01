@@ -21,7 +21,7 @@ using namespace std;
 #ifdef _WIN32
 #include <cassert>
 #include <ctime>
-//#include "vld.h"  //Comment this line, if you have NOT installed Visual leak detector
+#include "vld.h"  //Comment this line, if you have NOT installed Visual leak detector
 #else
 #include <assert.h>
 #include <time.h>
