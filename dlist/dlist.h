@@ -22,41 +22,44 @@ class dlist_iterator ;
 template <typename T>
 class node {
 public:
-	node(const T& data) :_data(data), _next(nullptr), _nextPtr(0) {}
+	node(const T& data) :_data(data),_next(0) {}
 	~node() {
 		_next = nullptr;
-		_nextPtr = 0;
+		_next = 0;
 	}
 	T& get_data() { return _data; }
 	friend class dlist<T>; //dlist can access nodes private part
 	friend class dlist_iterator<T>; //dlist_iterator can access dlist private part
-
+	node<T>* get_next(node<T>* prev);
+	
 private:
 	T  _data;
 	node<T>* _next;
-	long long _nextPtr;
+	node<T>* _xor(node<T>* &a, node <T>*& b) { return (node<T>*) ((unsigned int)(a) ^ (unsigned int)(b)); }
 };
 
 template <typename T>
-class slist {
+class dlist {
 public:
 	typedef dlist_iterator<T> iterator;
 	friend class dlist_iterator<T>; //slist_iterator can access slist private part
-	dlist(bool display, void(*pv) (T& c) = nullptr, int(*cf) (const T& c1, const T& c2) = nullptr);
-	~dlist();
+	dlist(bool display, void(*pv) (T& c) = nullptr, int(*cf) (const T& c1, const T& c2) = nullptr) {};
+	//~dlist();
 
-	int size() const;
+	int size() const {
+		return _size;
+	}
 	void append(const T& data);
-	bool unlink_data(const T& data);
+	//bool unlink_data(const T& data);
 	bool display()const { return _display; }
 	void set_display(bool x) {
 		// darray<T>::set_display(x);
 		_display = x;
 	}
-
+	T& get_data(int index);
 	/* for iterator */
-	iterator begin() { return iterator(_first); }
-	iterator end() { return iterator(); }
+	//iterator begin() { return iterator(_first); }
+	//iterator end() { return iterator(); }
 
 private:
 	node<T>* _first;
@@ -64,13 +67,14 @@ private:
 	void(*_pntr_to_func_to_delete_data) (T& c);
 	int(*_pntr_to_compare_func) (const T& c1, const T& c2);
 	int _num_nodes_allocated;
-	int _num_nodes_freed;
+	int _size;
+	//int _num_nodes_freed;
 	bool _display;
-
+	node<T>* _xor(node<T>* &a, node <T>* &b) { return (node<T>*) ((unsigned int)(a) ^ (unsigned int)(b)); }
 	node<T>* _create_a_node(const T& data);
-	void _delete_a_node(node<T> *n);
-	node<T>* _find(const T& data);
-	bool _unlink_data(const node<T>* p);
+	//void _delete_a_node(node<T> *n);
+	//node<T>* _find(const T& data);
+	//bool _unlink_data(const node<T>* p);
 
 };
 
