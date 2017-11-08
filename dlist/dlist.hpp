@@ -16,6 +16,35 @@ node<T>* dlist<T>::_create_a_node(const T& data) {
 	return x;
 }
 
+
+template <typename T>
+dlist<T>::~dlist() {
+	if (display()) {
+		cout << "In dlist destructor:" << endl;
+	}
+	node<T>* current = _first;
+	node<T>* next = 0;
+	node<T>* prev = 0;
+	while (current) {
+		next = current->get_next(prev);
+		prev = current;
+		current = next;
+		_delete_a_node(prev);
+	}
+	if (_num_nodes_allocated != _num_nodes_freed) {
+		assert(0);
+	}
+	_first = nullptr;
+	_last = nullptr;
+}
+
+template <typename T>
+void dlist<T>::_delete_a_node(node<T>* n) {
+	_num_nodes_freed++;
+	delete(n);
+}
+
+
 template <typename T>
 void dlist<T>::append(const T& data) {
 	node<T> *c = _create_a_node(data);
