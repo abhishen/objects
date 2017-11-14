@@ -23,7 +23,22 @@ Declaration of board
 -----------------------------------------------------------------*/
 class board{
 public:
-  
+	static const int N = 2;
+	board(const int arr[N][N]);
+	
+	const node& configure(char);
+	bool insert_map(node);
+	void push(node);
+	node pop();
+	bool empty();
+
+private:
+	char _dirs [4] = { 'U', 'L', 'D', 'R' };
+	bool _isValid(char c);
+	node _origin;
+	unordered_map <node,int> _map;
+	queue <node> _q;
+	string _solution;
 };
 
 /*----------------------------------------------------------------
@@ -31,7 +46,10 @@ Node definition
 -----------------------------------------------------------------*/
 class node {
 public:
-  
+	static const int N = 3;
+	node(const int array[N][N]);
+private:
+	vector<vector<int>> _config;
 };
 
 /*----------------------------------------------------------------
@@ -48,7 +66,8 @@ public:
   string get_solution() const ;
 
 private:
- 
+	board _game;
+	string _solution;
 };
 
 
