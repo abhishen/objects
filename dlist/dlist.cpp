@@ -20,7 +20,7 @@ Only includes allowed
 /*----------------------------------------------------------------
 Change only here if you need display
 -----------------------------------------------------------------*/
-static bool verbose = false;
+static bool verbose = true;
 
 /*----------------------------------------------------------------
 printing help

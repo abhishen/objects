@@ -50,7 +50,6 @@ public:
 		return _size;
 	}
 	void append(const T& data);
-	//bool unlink_data(const T& data);
 	bool display()const { return _display; }
 	void set_display(bool x) {
 		// darray<T>::set_display(x);
@@ -59,8 +58,8 @@ public:
 	T& get_data(int index);
 	
 	/* for iterator */
-	iterator begin() { return iterator(_first); }
-	iterator end() { return iterator(); }
+	//iterator begin() { return iterator(_first); }
+	//iterator end() { return iterator(); }
 
 private:
 	node<T>* _first;
@@ -74,39 +73,7 @@ private:
 	node<T>* _xor(node<T>* &a, node <T>* &b) { return (node<T>*) ((unsigned int)(a) ^ (unsigned int)(b)); }
 	node<T>* _create_a_node(const T& data);
 	void _delete_a_node(node<T> *n);
-	//node<T>* _find(const T& data);
-	//bool _unlink_data(const node<T>* p);
-
 };
-
-template <typename T>
-class dlist_iterator {
-public:
-	dlist_iterator(node<T>* x = nullptr) :_current(x) {}
-	~dlist_iterator() {}
-	dlist_iterator(const dlist_iterator<T>& x) { _current = x._current; }
-	dlist_iterator& operator=(const dlist_iterator<T>& x) { _current = x._current; return *this; }
-	// *(itt)
-	T& operator*() const {
-		return (_current->_data);
-	}
-
-	//++itt 
-	dlist_iterator<T>& operator++() {
-		_current = _current->_next;
-		return *this;
-	}
-
-	//if (itt != x.end()
-	bool operator!=(const dlist_iterator<T>& rhs) const {
-		return (_current != rhs._current);
-	}
-
-
-private:
-	node<T>* _current;
-};
-
 
 #include "dlist.hpp"
 #endif

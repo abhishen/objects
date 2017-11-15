@@ -56,7 +56,7 @@ void dlist<T>::append(const T& data) {
 	else {
 		//Change _next of last node to this
 		_last->_next = _xor(_last->_next,c);
-		//Store last node's address as c's xorNext for now
+		//Store last node's address as c's _next for now
 		c->_next = _last;
 	}
 	_last = c;
