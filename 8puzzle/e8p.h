@@ -35,6 +35,8 @@ private:
 	node _start;
 	node _final;
 	string _solution;
+
+	friend class e8p;
 };
 
 /*----------------------------------------------------------------
@@ -54,6 +56,9 @@ public:
 
 private:
 	int _current[N][N];
+
+	friend class board;
+	friend class e8p;
 };
 
 /*----------------------------------------------------------------

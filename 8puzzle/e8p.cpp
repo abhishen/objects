@@ -38,7 +38,10 @@ board::board(const int s[N][N], const int f[N][N]) :_start(s), _final(f), _solut
 }
 
 void board::play() {
+	_q.push(_start);
+	while (!_q.empty()) {
 
+	}
 }
 
 /*
