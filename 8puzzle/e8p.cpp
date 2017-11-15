@@ -25,6 +25,14 @@ node::node(const int array[N][N]) {
 }
 
 /*
+node copy constructor
+*/
+node& node::node(const node& rhs) {
+	this->_config(rhs->_config);
+	return *this;
+}
+
+/*
 e8p constructor
 */
 
@@ -55,7 +63,7 @@ board constructor
 board::board(const int s[N][N]):_solution(""),_origin(s) {
 }
 
-bool board::_isValid(char c) {
+bool board::_isValid(char c, int& newRow, int &newCol) {
 	int row = -1;
 	int col = -1;
 	for (int i = 0; i < N; ++i) {
@@ -69,28 +77,32 @@ bool board::_isValid(char c) {
 		}
 	}
 
+	newRow = row;
+	newCol = col;
+
 	if (c == 'U') {
-		int newPosition = row - 1;
-		return (newPosition >= 0);
+		newRow = row - 1;
+		return (newRow >= 0);
 	}
 	else if (c == 'L') {
-		int newPosition = col - 1;
-		return (newPosition >= 0);
+		newCol = col - 1;
+		return (newCol >= 0);
 	}
 	else if (c == 'D') {
-		int newPosition = row + 1;
-		return (newPosition < N);
+		newRow = row + 1;
+		return (newRow < N);
 	}
 	else {
-		int newPosition = col + 1;
-		return (newPosition < N);
+		newCol = col + 1;
+		return (newCol < N);
 	}
 }
 
 node& board::configure(char c) {
-	if (_isValid(c)) {
-		node temp;
-	}
+	int nextRow, nextCol;
+	if (_isValid(c,nextRow, nextCol)) {
+		node temp(this->_config);
+		temp->_config[newRow][newCol] = 
 }
 
 //EOF

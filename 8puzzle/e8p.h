@@ -48,6 +48,7 @@ class node {
 public:
 	static const int N = 3;
 	node(const int array[N][N]);
+	node&(const node&);
 private:
 	vector<vector<int>> _config;
 };
