@@ -17,7 +17,52 @@ All includes here
 #include <unordered_map>
 #include <queue>
 #include <string>
-#include <set>
+#include <unordered_set>
+
+/*----------------------------------------------------------------
+Node definition
+1. Node is the current configuration
+2. Private member array
+-----------------------------------------------------------------*/
+class node {
+public:
+	static const int N = 3;
+	node(const int s[N][N], bool);
+	//~node();
+	node(const node&);
+	node& operator=(const node&);
+	node configure(char);
+	bool isValid() {
+		return _valid == true;
+	}
+	friend bool operator==(const node&, const node&);
+
+	size_t getHash() const {
+		return _hash;
+	}
+
+private:
+	int _current[N][N];
+	bool _valid;
+	size_t _hash;
+	size_t _calculateHash();
+	void _copy(const node&);
+	
+	friend class board;
+	friend class e8p;
+};
+
+struct NodeHasher {
+	size_t operator()(const node& obj) const {
+		return obj.getHash();
+	}
+};
+
+struct NodeComparator {
+	bool operator()(const node& obj1, const node& obj2) const {
+		return obj1 == obj2;
+	}
+};
 
 /*----------------------------------------------------------------
 Declaration of board
@@ -27,41 +72,17 @@ Declaration of board
 class board{
 public:
 	static const int N = 3;
-	board(const int s[N][N], const int f[N][N]);
-	~board();
+	board(const int[N][N], const int[N][N]);
+	//~board();
 	void play();
 private:
-	unordered_map<node,int> _map;
+	unordered_set<node, NodeHasher, NodeComparator> _map;
 	queue<node> _q;
 	node _start;
 	node _final;
 	string _solution;
+	int _moves;
 	char _dirs[4] = { 'U', 'L', 'D', 'R' };
-	friend class e8p;
-};
-
-/*----------------------------------------------------------------
-Node definition
-	1. Node is the current configuration
-	2. Private member array
------------------------------------------------------------------*/
-class node {
-public:
-	static const int N = 3;
-	node(const int s[N][N]);
-	~node();
-	node(const node&);
-	node& operator=(const node&);
-	node& configure(char);
-	bool isValid() {
-		return _valid == true;
-	}
-
-private:
-	int _current[N][N];
-	bool _valid;
-
-	friend class board;
 	friend class e8p;
 };
 
