@@ -38,9 +38,22 @@ board::board(const int s[N][N], const int f[N][N]) :_start(s), _final(f), _solut
 }
 
 void board::play() {
+	//Insert initial config into the queue and map
+	_map.insert(_start);
 	_q.push(_start);
 	while (!_q.empty()) {
-
+		node top = _q.front();
+		_q.pop();
+		for (int i = 0; i < 4; i++) {
+			//Check if it is a valid configuration
+			node next = top.configure(_dirs[i]);
+			if (next.isValid()) {
+				if (_map.insert(next).second == true) {
+					_solution.append(to_string(_dirs[i]));
+					_q.push(next);
+				}
+			}
+		}
 	}
 }
 

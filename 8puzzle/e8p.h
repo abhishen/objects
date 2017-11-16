@@ -17,6 +17,7 @@ All includes here
 #include <unordered_map>
 #include <queue>
 #include <string>
+#include <set>
 
 /*----------------------------------------------------------------
 Declaration of board
@@ -35,7 +36,7 @@ private:
 	node _start;
 	node _final;
 	string _solution;
-
+	char _dirs[4] = { 'U', 'L', 'D', 'R' };
 	friend class e8p;
 };
 
@@ -51,11 +52,14 @@ public:
 	~node();
 	node(const node&);
 	node& operator=(const node&);
-	bool isValid();
-	node& configure();
+	node& configure(char);
+	bool isValid() {
+		return _valid == true;
+	}
 
 private:
 	int _current[N][N];
+	bool _valid;
 
 	friend class board;
 	friend class e8p;
