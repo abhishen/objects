@@ -35,6 +35,22 @@ public:
 	bool isValid() {
 		return _valid == true;
 	}
+
+	void print_node() {
+		for (int i = 0; i < N; ++i) {
+			for (int j = 0; j < N; ++j) {
+				int v = _current[i][j];
+				if (v) {
+					cout << v << ' ';
+				}
+				else {
+					cout << ' ' << ' ';
+				}
+			}
+			cout << endl;
+		}
+	}
+
 	friend bool operator==(const node&, const node&);
 
 	size_t getHash() const {
@@ -47,7 +63,7 @@ private:
 	size_t _hash;
 	size_t _calculateHash();
 	void _copy(const node&);
-	
+	string _substring;
 	friend class board;
 	friend class e8p;
 };

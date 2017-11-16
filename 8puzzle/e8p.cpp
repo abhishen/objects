@@ -40,33 +40,40 @@ board::board(const int s[N][N], const int f[N][N]): _start(s,true), _final(f,tru
 }
 
 void board::play() {
+	//If start and final are same, exit
+	if (_start == _final) return;
 	//Insert initial config into the queue and map
 	_map.insert(_start);
 	_q.push(_start);
 	while (!_q.empty()) {
 		node top = _q.front();
 		_q.pop();
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i  < 4; i++) {
 			//Check if it is a valid configuration
 			node next = top.configure(_dirs[i]);
-
+			cout << "---------" << endl;
+			next.print_node();
+			//cout << "---------" << endl;
 			if (next.isValid()) {
+				_moves++;
 				//If the config is equal to start
-				if (next == _start) {
-					_solution.append(to_string(_dirs[i]));
+				//Append direction to node's substring.
+				//Final solution = node's substring
+				//Return
+				if (next == _final) {
+					next._substring.push_back(_dirs[i]);
+					_solution = next._substring;
 					return;
 				}
 
-				//If not, insert in map if unique and append solution
+				//If not, insert in map if unique and append the direction to node's substring
 				if (_map.insert(next).second == true) {
-					_moves++;
-					_solution.append(to_string(_dirs[i]));
+					next._substring.push_back(_dirs[i]);
 					_q.push(next);
 				}
 				else {
 				//Configuration is not unique and we have hit a loop
-				//Go back to previous state.
-					continue;
+				continue;
 				}
 			}
 		}
@@ -82,7 +89,8 @@ node::node(const int s[N][N], bool valid = true) {
 			_current[i][j] = s[i][j];
 		}
 	}
-	_valid = true;
+	_substring = "";
+	_valid = valid;
 	_hash = _calculateHash();
 }
 
@@ -100,6 +108,7 @@ node& node::operator=(const node& rhs) {
 void node::_copy(const node& rhs) {
 	this->_hash = rhs._hash;
 	this->_valid = rhs._valid;
+	this->_substring = rhs._substring;
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < N; j++) {
 			this->_current[i][j] = rhs._current[i][j];
@@ -125,7 +134,7 @@ node node::configure(char dir) {
 	bool valid = true;
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < N; j++) {
-			if (_current[i][j] = 0) {
+			if (_current[i][j] == 0) {
 				row = i;
 				col = j;
 			}
@@ -148,7 +157,7 @@ node node::configure(char dir) {
 	else if (dir == 'D') {
 		int next_row = row + 1;
 		int next_col = col;
-		if (next_row > N) {
+		if (next_row >= N) {
 			valid = false;
 		}
 		else {
@@ -170,7 +179,7 @@ node node::configure(char dir) {
 	else {
 		int next_row = row;
 		int next_col = col + 1;
-		if (next_col > N) {
+		if (next_col >= N) {
 			valid = false;
 		}
 		else {
@@ -180,6 +189,7 @@ node node::configure(char dir) {
 	}
 
 	node nextNode(next, valid);
+	nextNode._substring = this->_substring;
 	return nextNode;
 }
 
